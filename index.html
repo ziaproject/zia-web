@@ -281,7 +281,7 @@ html,body { font-family:'DM Sans',sans-serif; background:var(--crema); color:var
 /* Chat modal */
 .chat-overlay {
   position:fixed; inset:0; background:rgba(0,0,0,0.5);
-  z-index:150; display:none; align-items:flex-end; justify-content:center;
+  z-index:150; display:none; align-items:center; justify-content:center;
   backdrop-filter:blur(3px);
 }
 .chat-overlay.open { display:flex; }
@@ -514,7 +514,6 @@ html,body { font-family:'DM Sans',sans-serif; background:var(--crema); color:var
       <button onclick="chipChat('¿Qué suplementos me recomiendas?')" style="white-space:nowrap;padding:7px 13px;border-radius:20px;border:1px solid var(--borde);background:white;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;flex-shrink:0">💊 Suplementación</button>
       <button onclick="chipChat('¿Cómo puedo ahorrar en la compra? Dime ofertas y marcas blancas de mi supermercado')" style="white-space:nowrap;padding:7px 13px;border-radius:20px;border:1px solid var(--borde);background:white;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;flex-shrink:0">💰 Ahorrar</button>
       <button onclick="abrirFotoNevera()" style="white-space:nowrap;padding:7px 13px;border-radius:20px;border:1px solid var(--borde);background:white;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;flex-shrink:0">📸 Foto nevera</button>
-      <button onclick="chipChat('¿Qué puedo cocinar con lo que tengo en casa?')" style="white-space:nowrap;padding:7px 13px;border-radius:20px;border:1px solid var(--borde);background:white;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;flex-shrink:0">🥦 Qué cocino</button>
     </div>
     <div class="chat-input-row">
       <input class="chat-txt" id="chatInput" placeholder="Pregúntame algo..." onkeydown="if(event.key==='Enter')enviarChat()">
