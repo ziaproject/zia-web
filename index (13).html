@@ -631,13 +631,20 @@ function obSiguiente() {
 
 // ── GENERAR PLAN ──
 async function generarPlan() {
-  mostrar('vista-plan'); // oculta onboarding pero...
+  mostrar('vista-plan');
   document.getElementById('vista-carga').classList.add('show');
+
+  // Mostrar demo inmediatamente tras 3s si no llega respuesta
+  const demoTimer = setTimeout(() => {
+    document.getElementById('vista-carga').classList.remove('show');
+    renderPlanDemo();
+    document.getElementById('cargaTexto').textContent = 'Calculando tu plan personalizado...';
+  }, 8000);
 
   const textosCarga = [
     'Calculando tus macros...',
     'Eligiendo recetas para tu objetivo...',
-    'Optimizando precios en '+perfil.supermercado+'...',
+    'Optimizando precios en ' + (perfil.supermercado||'tu supermercado') + '...',
     'Preparando tu lista de la compra...',
     'Casi listo...'
   ];
@@ -648,9 +655,13 @@ async function generarPlan() {
   }, 4000);
 
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 90000);
+
     const res = await fetch(API+'/web/generar-plan', {
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':'Bearer anonimo'},
+      signal: controller.signal,
       body: JSON.stringify({
         nombre: perfil.nombre,
         genero: perfil.genero,
@@ -665,22 +676,22 @@ async function generarPlan() {
       })
     });
 
-    const data = await res.json();
+    clearTimeout(timeout);
+    clearTimeout(demoTimer);
     clearInterval(intervalo);
     document.getElementById('vista-carga').classList.remove('show');
 
+    const data = await res.json();
     if (data.ok && data.plan) {
       renderPlan(data.plan);
-      mostrar('vista-plan');
     } else {
-      throw new Error(data.error || 'Sin plan');
+      renderPlanDemo();
     }
   } catch(e) {
+    clearTimeout(demoTimer);
     clearInterval(intervalo);
     document.getElementById('vista-carga').classList.remove('show');
-    // Mostrar plan de demo si falla
     renderPlanDemo();
-    mostrar('vista-plan');
   }
 }
 
@@ -785,7 +796,7 @@ function renderLista(lista) {
   catsEl.innerHTML = '';
 
   if (!lista || !lista.categorias) {
-    catsEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--texto-suave)">Lista de la compra no disponible en el plan gratuito</div>';
+    catsEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--texto-suave)">Lista generándose...</div>';
     return;
   }
 
@@ -796,16 +807,19 @@ function renderLista(lista) {
     catEl.className = 'cat-card';
     let rows = '';
     items.forEach(item => {
-      const precio = item.precio||0;
-      total += precio;
+      // El backend puede devolver: {nombre, cantidad, precio} o solo cantidad como número
+      const nombre = item.nombre || item.producto || item.name || '';
+      const cantidad = item.cantidad || item.cantidad_g || item.amount || '';
+      const precio = parseFloat(item.precio || item.price || 0);
+      if (precio) total += precio;
       rows += `
         <div class="prod-row" onclick="this.classList.toggle('checked')">
           <div class="prod-check"></div>
           <div style="flex:1">
-            <div class="prod-nombre">${item.nombre||''}</div>
-            <div class="prod-cantidad">${item.cantidad||''}</div>
+            <div class="prod-nombre">${nombre}</div>
+            <div class="prod-cantidad">${cantidad}</div>
           </div>
-          <div class="prod-precio">${precio?precio.toFixed(2)+'€':''}</div>
+          <div class="prod-precio">${precio ? precio.toFixed(2)+'€' : ''}</div>
         </div>`;
     });
     catEl.innerHTML = `<div class="cat-header">${cat}</div>${rows}`;
@@ -816,6 +830,16 @@ function renderLista(lista) {
     document.getElementById('listaTotal').classList.remove('hidden');
     document.getElementById('totalValor').textContent = total.toFixed(2)+'€';
   }
+
+  // Botón chat al final de la lista
+  const chatBtn = document.createElement('div');
+  chatBtn.style.cssText = 'margin-top:20px;padding:20px;background:var(--verde);border-radius:16px;text-align:center;cursor:pointer;';
+  chatBtn.innerHTML = `
+    <div style="font-size:24px;margin-bottom:8px">💬</div>
+    <div style="font-family:Fraunces,serif;font-size:18px;color:white;margin-bottom:4px">Habla con ZIA</div>
+    <div style="font-size:13px;color:rgba(255,255,255,0.8)">Tu nutricionista inteligente — dudas, recetas, suplementación</div>`;
+  chatBtn.onclick = abrirChat;
+  catsEl.appendChild(chatBtn);
 }
 
 // ── PLAN DEMO (si falla el backend) ──
