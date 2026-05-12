@@ -280,7 +280,9 @@ html,body { font-family:'DM Sans',sans-serif; background:var(--crema); color:var
 
 /* Chat modal */
 .chat-overlay {
-  position:fixed; inset:0; background:rgba(0,0,0,0.5);
+  position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:90%; max-width:420px; max-height:75vh;
+  background:rgba(0,0,0,0.5);
   z-index:150; display:none; align-items:center; justify-content:center;
   backdrop-filter:blur(3px);
 }
