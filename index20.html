@@ -1,0 +1,2434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ZIA Nutrición</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde: #2D5016;
+  --verde-medio: #4A7C2E;
+  --verde-claro: #8CB87A;
+  --crema: #F7F4EF;
+  --crema-oscuro: #EDE8DF;
+  --texto: #1A1A1A;
+  --texto-suave: #6B6B6B;
+  --blanco: #FFFFFF;
+  --borde: #E0D9CE;
+  --rojo: #C0392B;
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html,body { font-family:'DM Sans',sans-serif; background:var(--crema); color:var(--texto); }
+.hidden { display:none !important; }
+@keyframes spin { to { transform:rotate(360deg); } }
+@keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+@keyframes slideUp { from { transform:translateY(100%); } to { transform:translateY(0); } }
+
+/* ── LANDING ── */
+#vista-landing { display:block; }
+#vista-onboarding, #vista-plan, #vista-app { display:none; }
+
+.nav {
+  position:sticky; top:0;
+  background:rgba(247,244,239,0.95);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--borde);
+  padding:14px 20px;
+  display:flex; align-items:center; justify-content:space-between;
+  z-index:50;
+}
+.nav-logo { font-family:'Fraunces',serif; font-size:24px; color:var(--verde); font-weight:600; }
+.btn-nav-login {
+  background:none; border:1px solid var(--borde); border-radius:8px;
+  padding:7px 14px; font-size:13px; cursor:pointer; margin-right:8px;
+}
+.btn-nav-cta {
+  background:var(--verde); color:white; border:none; border-radius:8px;
+  padding:8px 16px; font-size:13px; font-weight:500; cursor:pointer;
+}
+
+.hero { padding:52px 20px 40px; text-align:center; max-width:480px; margin:0 auto; }
+.hero-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  background:white; border:1px solid var(--borde); border-radius:20px;
+  padding:5px 12px; font-size:12px; color:var(--verde-medio); font-weight:500; margin-bottom:22px;
+}
+.hero h1 {
+  font-family:'Fraunces',serif; font-size:clamp(36px,8vw,52px);
+  font-weight:400; line-height:1.1; letter-spacing:-1px; margin-bottom:16px;
+}
+.hero h1 em { font-style:italic; color:var(--verde-medio); }
+.hero p { font-size:16px; color:var(--texto-suave); line-height:1.6; margin-bottom:28px; }
+.btn-primary {
+  background:var(--verde); color:white; border:none; border-radius:12px;
+  padding:14px 28px; font-size:16px; font-weight:500; cursor:pointer;
+  width:100%; max-width:320px; display:block; margin:0 auto;
+  transition:opacity 0.2s;
+}
+.btn-primary:active { opacity:0.85; }
+.hero-trust { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-top:16px; }
+.trust-item { font-size:12px; color:var(--texto-suave); }
+
+/* ── ONBOARDING ── */
+#vista-onboarding {
+  min-height:100dvh; background:var(--crema);
+  display:flex; flex-direction:column; align-items:center; padding:20px 20px 100px;
+}
+.ob-wrap { width:100%; max-width:480px; margin:0 auto; }
+.ob-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+.ob-logo { font-family:'Fraunces',serif; font-size:20px; color:var(--verde); font-weight:600; }
+.ob-num { font-size:13px; color:var(--texto-suave); }
+.ob-barra-wrap { background:var(--borde); border-radius:99px; height:5px; margin-bottom:32px; }
+.ob-barra { background:var(--verde); height:5px; border-radius:99px; transition:width 0.4s ease; }
+
+.ob-paso { width:100%; }
+.ob-titulo { font-family:'Fraunces',serif; font-size:24px; font-weight:400; margin-bottom:6px; line-height:1.2; }
+.ob-sub { font-size:14px; color:var(--texto-suave); margin-bottom:24px; line-height:1.5; }
+
+.ob-input {
+  width:100%; padding:14px; border:2px solid var(--borde); border-radius:12px;
+  font-family:'DM Sans',sans-serif; font-size:16px; margin-bottom:12px;
+  background:white; outline:none; transition:border-color 0.2s;
+}
+.ob-input:focus { border-color:var(--verde-medio); }
+.ob-row { display:flex; gap:10px; }
+.ob-row .ob-input { flex:1; }
+.ob-select {
+  width:100%; padding:14px; border:2px solid var(--borde); border-radius:12px;
+  font-family:'DM Sans',sans-serif; font-size:15px; background:white;
+  margin-bottom:12px; outline:none;
+}
+
+.ob-opciones { display:flex; flex-direction:column; gap:10px; }
+.ob-opciones.grid2 { display:grid; grid-template-columns:1fr 1fr; }
+
+.ob-btn {
+  background:white; border:2px solid var(--borde); border-radius:14px;
+  padding:14px 16px; font-family:'DM Sans',sans-serif; font-size:14px;
+  font-weight:500; cursor:pointer; text-align:left;
+  transition:all 0.2s; color:var(--texto);
+}
+.ob-btn:active { transform:scale(0.97); }
+.ob-btn.sel { border-color:var(--verde); background:#F0F7EB; }
+
+.ob-footer {
+  position:fixed; bottom:0; left:0; right:0;
+  background:var(--crema); border-top:1px solid var(--borde);
+  padding:14px 20px 32px;
+}
+.ob-next {
+  width:100%; max-width:480px; margin:0 auto; display:block;
+  padding:14px; background:var(--verde); color:white; border:none;
+  border-radius:12px; font-family:'DM Sans',sans-serif; font-size:15px;
+  font-weight:500; cursor:pointer; transition:opacity 0.2s;
+}
+.ob-next:disabled { opacity:0.35; cursor:not-allowed; }
+
+/* ── CARGA ── */
+#vista-carga {
+  display:none; position:fixed; inset:0; background:var(--crema);
+  flex-direction:column; align-items:center; justify-content:center;
+  z-index:200; gap:20px;
+}
+#vista-carga.show { display:flex; }
+.carga-logo { font-family:'Fraunces',serif; font-size:32px; color:var(--verde); }
+.carga-spinner {
+  width:32px; height:32px; border:3px solid var(--borde);
+  border-top-color:var(--verde); border-radius:50%;
+  animation:spin 0.8s linear infinite;
+}
+.carga-texto { font-size:15px; color:var(--texto-suave); text-align:center; max-width:280px; line-height:1.5; }
+
+/* ── PLAN SEMANAL ── */
+#vista-plan {
+  min-height:100dvh; background:var(--crema);
+}
+.plan-nav {
+  background:white; border-bottom:1px solid var(--borde);
+  padding:14px 20px; display:flex; align-items:center; justify-content:space-between;
+  position:sticky; top:0; z-index:10;
+}
+.plan-nav-logo { font-family:'Fraunces',serif; font-size:22px; color:var(--verde); font-weight:600; }
+.btn-reiniciar {
+  background:none; border:1px solid var(--borde); border-radius:8px;
+  padding:7px 12px; font-size:12px; cursor:pointer; color:var(--texto-suave);
+}
+
+.plan-hero {
+  background:var(--verde); padding:24px 20px; color:white;
+}
+.plan-hero-inner { max-width:480px; margin:0 auto; }
+.plan-hero h2 { font-family:'Fraunces',serif; font-size:22px; font-weight:400; margin-bottom:4px; }
+.plan-hero p { font-size:13px; opacity:0.8; margin-bottom:16px; }
+.plan-stats { display:flex; gap:8px; }
+.plan-stat {
+  flex:1; background:rgba(255,255,255,0.15); border-radius:10px;
+  padding:10px; text-align:center;
+}
+.plan-stat-val { font-family:'Fraunces',serif; font-size:20px; font-weight:600; display:block; }
+.plan-stat-lab { font-size:10px; opacity:0.8; }
+
+.plan-body { padding:16px 20px; max-width:480px; margin:0 auto; display:flex; flex-direction:column; gap:12px; }
+
+.dia-card {
+  background:white; border:1px solid var(--borde); border-radius:16px;
+  overflow:hidden; animation:fadeUp 0.3s ease both;
+}
+.dia-card:nth-child(2) { animation-delay:0.05s; }
+.dia-card:nth-child(3) { animation-delay:0.1s; }
+.dia-card:nth-child(4) { animation-delay:0.15s; }
+.dia-card:nth-child(5) { animation-delay:0.2s; }
+.dia-card:nth-child(6) { animation-delay:0.25s; }
+.dia-card:nth-child(7) { animation-delay:0.3s; }
+
+.dia-header {
+  padding:14px 16px; display:flex; align-items:center;
+  justify-content:space-between; cursor:pointer;
+  user-select:none;
+}
+.dia-header:active { background:var(--crema); }
+.dia-nombre { font-weight:500; font-size:15px; display:flex; align-items:center; gap:8px; }
+.dia-kcal-badge {
+  font-size:11px; color:var(--verde-medio);
+  background:#EDF7E8; border-radius:20px; padding:2px 8px;
+}
+.dia-chevron { font-size:11px; color:var(--texto-suave); transition:transform 0.25s; }
+.dia-card.open .dia-chevron { transform:rotate(180deg); }
+
+.dia-comidas { display:none; border-top:1px solid var(--borde); }
+.dia-card.open .dia-comidas { display:block; }
+
+.comida-row {
+  padding:14px 16px; border-bottom:1px solid var(--borde);
+  display:flex; gap:12px; align-items:flex-start;
+}
+.comida-row:last-child { border-bottom:none; }
+
+.comida-icono-wrap {
+  width:36px; height:36px; border-radius:10px;
+  background:var(--crema); display:flex; align-items:center;
+  justify-content:center; font-size:18px; flex-shrink:0;
+}
+.comida-info { flex:1; }
+.comida-tipo {
+  font-size:10px; text-transform:uppercase; letter-spacing:0.5px;
+  color:var(--texto-suave); font-weight:600; margin-bottom:2px;
+}
+.comida-nombre { font-size:14px; font-weight:500; margin-bottom:4px; line-height:1.3; }
+.comida-ingredientes { font-size:12px; color:var(--texto-suave); line-height:1.5; margin-bottom:6px; }
+.comida-macros { display:flex; gap:8px; flex-wrap:wrap; }
+.macro-chip {
+  font-size:11px; padding:2px 7px; border-radius:20px;
+  background:var(--crema-oscuro); color:var(--texto-suave);
+}
+.comida-kcal { font-size:13px; font-weight:600; color:var(--verde-medio); flex-shrink:0; margin-top:2px; }
+
+/* Lista compra */
+.lista-section { padding:16px 20px; max-width:480px; margin:0 auto; }
+.lista-title { font-family:'Fraunces',serif; font-size:20px; margin-bottom:16px; }
+.lista-cats { display:flex; flex-direction:column; gap:10px; }
+.cat-card { background:white; border:1px solid var(--borde); border-radius:14px; overflow:hidden; }
+.cat-header { padding:10px 14px; background:var(--crema-oscuro); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--texto-suave); }
+.prod-row {
+  padding:11px 14px; display:flex; align-items:center; gap:10px;
+  border-bottom:1px solid var(--borde); cursor:pointer;
+}
+.prod-row:last-child { border-bottom:none; }
+.prod-check {
+  width:20px; height:20px; border-radius:50%; border:2px solid var(--borde);
+  flex-shrink:0; display:flex; align-items:center; justify-content:center;
+  transition:all 0.2s;
+}
+.prod-row.checked .prod-check { background:var(--verde); border-color:var(--verde); }
+.prod-row.checked .prod-check::after { content:'✓'; color:white; font-size:11px; font-weight:700; }
+.prod-nombre { flex:1; font-size:14px; transition:opacity 0.2s; }
+.prod-row.checked .prod-nombre { opacity:0.4; text-decoration:line-through; }
+.prod-cantidad { font-size:12px; color:var(--texto-suave); }
+.prod-precio { font-size:14px; font-weight:500; color:var(--verde-medio); flex-shrink:0; }
+
+.lista-total {
+  background:var(--verde); border-radius:14px; padding:14px 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  color:white; margin-top:12px;
+}
+.total-label { font-size:14px; opacity:0.85; }
+.total-valor { font-family:'Fraunces',serif; font-size:22px; font-weight:600; }
+
+/* CTA upgrade */
+.upgrade-banner {
+  background:linear-gradient(135deg, var(--verde) 0%, var(--verde-medio) 100%);
+  border-radius:16px; padding:20px; color:white; text-align:center; margin-top:8px;
+}
+.upgrade-banner h3 { font-family:'Fraunces',serif; font-size:18px; font-weight:400; margin-bottom:6px; }
+.upgrade-banner p { font-size:13px; opacity:0.85; margin-bottom:14px; line-height:1.5; }
+.btn-upgrade {
+  background:white; color:var(--verde); border:none; border-radius:10px;
+  padding:10px 20px; font-size:14px; font-weight:600; cursor:pointer; width:100%;
+}
+
+/* Bottom nav */
+.bottom-nav {
+  display:none;
+  position:fixed; bottom:0; left:0; right:0;
+  background:white; border-top:1px solid var(--borde);
+  z-index:90; padding-bottom:env(safe-area-inset-bottom);
+}
+.bottom-nav.show { display:flex; }
+.bnav-btn {
+  flex:1; padding:10px 4px 8px; border:none; background:none;
+  display:flex; flex-direction:column; align-items:center; gap:3px;
+  font-family:'DM Sans',sans-serif; font-size:10px; color:var(--texto-suave);
+  cursor:pointer; transition:color 0.2s;
+}
+.bnav-btn.active { color:var(--verde); font-weight:600; }
+.bnav-icon { font-size:20px; }
+
+/* Chat FAB — oculto cuando hay bottom nav */
+.chat-fab { display:none; }
+
+/* Chat modal */
+.chat-backdrop {
+  position:fixed; inset:0;
+  background:rgba(0,0,0,0.6); z-index:998;
+  display:none;
+}
+.chat-backdrop.open { display:block; }
+.chat-overlay {
+  position:fixed; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:92%; max-width:440px;
+  z-index:999; display:none;
+}
+.chat-overlay.open { display:block; }
+.chat-sheet {
+  background:white; border-radius:20px;
+  width:100%; height:85dvh; max-height:680px;
+  display:flex; flex-direction:column;
+  box-shadow:0 20px 60px rgba(0,0,0,0.3);
+  animation:fadeUp 0.25s ease;
+}
+
+/* Flecha atrás */
+.btn-back {
+  background:none; border:none; cursor:pointer;
+  font-size:20px; color:var(--texto); padding:4px 8px;
+  display:flex; align-items:center; gap:6px;
+  font-family:'DM Sans',sans-serif; font-size:14px;
+  color:var(--verde); font-weight:500;
+}
+.resumen-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1050; display:none;
+}
+.resumen-overlay.open { display:flex; align-items:flex-end; }
+.resumen-sheet {
+  background:white; border-radius:20px 20px 0 0;
+  width:100%; padding:20px 20px 40px;
+  animation:slideUp 0.3s ease;
+}
+.resumen-title { font-family:'Fraunces',serif; font-size:20px; margin-bottom:4px; }
+.resumen-sub { font-size:13px; color:var(--texto-suave); margin-bottom:20px; }
+.resumen-btns { display:flex; flex-direction:column; gap:10px; }
+.resumen-btn {
+  padding:14px 16px; border-radius:14px; border:none;
+  font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500;
+  cursor:pointer; display:flex; align-items:center; gap:10px; text-align:left;
+}
+.resumen-btn.primary { background:var(--verde); color:white; }
+.resumen-btn.secondary { background:var(--crema-oscuro); color:var(--texto); }
+
+/* Perfil */
+.perfil-section { display:none; }
+.perfil-section.show { display:block; }
+.perfil-avatar-card {
+  background:var(--verde); border-radius:20px; padding:24px;
+  text-align:center; color:white; margin-bottom:16px;
+}
+.perfil-avatar {
+  width:64px; height:64px; border-radius:50%;
+  background:rgba(255,255,255,0.2); margin:0 auto 12px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:28px; font-weight:700; color:white;
+}
+.perfil-nombre-txt { font-family:'Fraunces',serif; font-size:22px; margin-bottom:4px; }
+.perfil-obj { font-size:13px; opacity:0.8; }
+.perfil-stats { display:flex; gap:8px; margin-top:16px; }
+.perfil-stat {
+  flex:1; background:rgba(255,255,255,0.15); border-radius:12px;
+  padding:10px 8px; text-align:center;
+}
+.perfil-stat-val { font-family:'Fraunces',serif; font-size:18px; font-weight:600; }
+.perfil-stat-lab { font-size:10px; opacity:0.8; margin-top:2px; }
+
+.opciones-lista { background:white; border:1px solid var(--borde); border-radius:16px; overflow:hidden; margin-bottom:12px; }
+.opcion-item {
+  padding:14px 16px; display:flex; align-items:center; gap:12px;
+  border-bottom:1px solid var(--borde); cursor:pointer;
+}
+.opcion-item:last-child { border-bottom:none; }
+.opcion-item:active { background:var(--crema); }
+.opcion-emoji { font-size:18px; }
+.opcion-txt { flex:1; font-size:14px; }
+.opcion-arrow { font-size:12px; color:var(--texto-suave); }
+
+.notif-card {
+  background:linear-gradient(135deg,#1a3a0a,#2d6a10);
+  border-radius:16px; padding:18px; color:white; margin-bottom:12px;
+}
+.notif-title { font-family:'Fraunces',serif; font-size:16px; margin-bottom:4px; }
+.notif-sub { font-size:12px; opacity:0.8; margin-bottom:14px; }
+.notif-toggle {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:8px; font-size:13px;
+}
+.toggle-switch {
+  width:44px; height:24px; border-radius:12px; background:rgba(255,255,255,0.3);
+  border:none; cursor:pointer; position:relative; transition:background 0.3s;
+}
+.toggle-switch.on { background:var(--verde-claro); }
+.toggle-switch::after {
+  content:''; position:absolute; top:2px; left:2px;
+  width:20px; height:20px; border-radius:50%; background:white;
+  transition:transform 0.3s;
+}
+.toggle-switch.on::after { transform:translateX(20px); }
+
+.btn-logout {
+  width:100%; padding:14px; background:none; border:1px solid var(--borde);
+  border-radius:12px; font-family:'DM Sans',sans-serif; font-size:14px;
+  color:var(--rojo); cursor:pointer; margin-top:4px;
+}
+.chat-sheet-header {
+  padding:16px 20px; border-bottom:1px solid var(--borde);
+  display:flex; align-items:center; justify-content:space-between; flex-shrink:0;
+}
+.chat-sheet-title { font-family:'Fraunces',serif; font-size:18px; }
+.btn-chat-close { background:none; border:none; font-size:22px; cursor:pointer; color:var(--texto-suave); }
+.chat-msgs { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:10px; }
+.chat-msgs::-webkit-scrollbar { display:none; }
+.cmsg { max-width:82%; padding:10px 13px; border-radius:16px; font-size:14px; line-height:1.5; animation:fadeUp 0.2s ease; }
+.cmsg.zia { background:var(--crema); border:1px solid var(--borde); border-top-left-radius:4px; align-self:flex-start; }
+.cmsg.user { background:var(--verde); color:white; border-top-right-radius:4px; align-self:flex-end; }
+.chat-input-row { padding:12px 16px 24px; border-top:1px solid var(--borde); display:flex; gap:8px; flex-shrink:0; }
+.chat-txt {
+  flex:1; border:1px solid var(--borde); border-radius:20px;
+  padding:10px 14px; font-family:'DM Sans',sans-serif; font-size:14px;
+  outline:none; background:var(--crema);
+}
+.btn-chat-send {
+  width:38px; height:38px; border-radius:50%; background:var(--verde);
+  border:none; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.btn-chat-send svg { width:16px; height:16px; fill:white; }
+
+.typing { display:flex; gap:4px; align-items:center; padding:10px 13px; background:var(--crema); border:1px solid var(--borde); border-radius:16px; border-top-left-radius:4px; width:fit-content; }
+.tdot { width:6px; height:6px; border-radius:50%; background:var(--texto-suave); animation:typing 1.2s infinite; }
+.tdot:nth-child(2) { animation-delay:0.2s; }
+.tdot:nth-child(3) { animation-delay:0.4s; }
+@keyframes typing { 0%,60%,100% { transform:translateY(0); opacity:0.4; } 30% { transform:translateY(-4px); opacity:1; } }
+</style>
+</head>
+<body>
+
+<!-- ═══ CARGA ═══ -->
+<div id="vista-carga">
+  <div class="carga-logo">ZIA</div>
+  <div class="carga-spinner"></div>
+  <div class="carga-texto" id="cargaTexto">Calculando tus macros y personalizando cada comida...</div>
+</div>
+
+<!-- ═══ LANDING ═══ -->
+<div id="vista-landing">
+  <nav class="nav">
+    <div class="nav-logo">ZIA</div>
+    <div>
+      <button class="btn-nav-login">Entrar</button>
+      <button class="btn-nav-cta" onclick="irOnboarding()">Empieza gratis</button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-badge">🌿 Tu nutricionista inteligente</div>
+    <h1>Come mejor, <em>gasta menos</em>, sin complicaciones.</h1>
+    <p>ZIA analiza tu perfil, crea tu plan semanal personalizado y genera tu lista de la compra — en 2 minutos.</p>
+    <button class="btn-primary" onclick="irOnboarding()">Empieza gratis →</button>
+    <div class="hero-trust">
+      <span class="trust-item">🔒 Sin tarjeta</span>
+      <span class="trust-item">⚡ Lista en 2 min</span>
+      <span class="trust-item">🎯 100% personalizado</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ONBOARDING ═══ -->
+<div id="vista-onboarding">
+<div class="ob-wrap">
+  <div class="ob-top">
+    <button class="btn-back" onclick="mostrar('vista-landing')">← Volver</button>
+    <div class="ob-num" id="obNum">1 de 5</div>
+  </div>
+  <div class="ob-barra-wrap">
+    <div class="ob-barra" id="obBarra" style="width:20%"></div>
+  </div>
+
+  <!-- PASO 1: Datos -->
+  <div class="ob-paso" id="obP1">
+    <div class="ob-titulo">¿Cómo te llamas? 👋</div>
+    <div class="ob-sub">Para personalizar tu plan</div>
+    <input class="ob-input" id="obNombre" type="text" placeholder="Tu nombre">
+    <div class="ob-row">
+      <select class="ob-select" id="obGenero" style="flex:1;margin-bottom:0">
+        <option value="">Género</option>
+        <option value="mujer">Mujer</option>
+        <option value="hombre">Hombre</option>
+        <option value="otro">Otro</option>
+      </select>
+      <input class="ob-input" id="obEdad" type="number" placeholder="Edad" style="flex:1;margin-bottom:0">
+    </div>
+    <div style="height:10px"></div>
+    <div class="ob-row">
+      <input class="ob-input" id="obPeso" type="text" inputmode="decimal" placeholder="Peso ej. 68,5 kg" style="margin-bottom:0">
+      <input class="ob-input" id="obAltura" type="text" inputmode="decimal" placeholder="Altura ej. 1,70 m" style="margin-bottom:0">
+    </div>
+  </div>
+
+  <!-- PASO 2: Objetivo -->
+  <div class="ob-paso hidden" id="obP2">
+    <div class="ob-titulo">¿Cuál es tu objetivo? 🎯</div>
+    <div class="ob-sub">ZIA adaptará todo a lo que necesitas</div>
+    <div class="ob-opciones" id="obOpcObjetivo">
+      <button class="ob-btn" onclick="obElige('objetivo','Perder peso',this,'obP2')">⚖️ Perder peso</button>
+      <button class="ob-btn" onclick="obElige('objetivo','Ganar músculo',this,'obP2')">💪 Ganar músculo</button>
+      <button class="ob-btn" onclick="obElige('objetivo','Más energía y vitalidad',this,'obP2')">⚡ Más energía</button>
+      <button class="ob-btn" onclick="obElige('objetivo','Comer más sano',this,'obP2')">🥗 Comer más sano</button>
+      <button class="ob-btn" onclick="obElige('objetivo','Mejorar la digestión',this,'obP2')">🌿 Mejorar digestión</button>
+    </div>
+  </div>
+
+  <!-- PASO 3: Intolerancias -->
+  <div class="ob-paso hidden" id="obP3">
+    <div class="ob-titulo">¿Alguna restricción? 🚨</div>
+    <div class="ob-sub">Puedes elegir varias</div>
+    <div class="ob-opciones" id="obOpcIntol">
+      <button class="ob-btn sel" onclick="obMulti('Ninguna',this)">✅ Ninguna</button>
+      <button class="ob-btn" onclick="obMulti('Vegetariano/Vegano',this)">🌱 Vegano/Vegetariano</button>
+      <button class="ob-btn" onclick="obMulti('Sin gluten',this)">🌾 Sin gluten</button>
+      <button class="ob-btn" onclick="obMulti('Sin lactosa',this)">🥛 Sin lactosa</button>
+      <button class="ob-btn" onclick="obMulti('Sin pescado',this)">🐟 Sin pescado</button>
+      <button class="ob-btn" onclick="obMulti('Sin huevo',this)">🥚 Sin huevo</button>
+    </div>
+  </div>
+
+  <!-- PASO 4: Ejercicio -->
+  <div class="ob-paso hidden" id="obP4">
+    <div class="ob-titulo">¿Cuánto ejercicio haces? 🏃</div>
+    <div class="ob-sub">Para calcular tus calorías</div>
+    <div class="ob-opciones" id="obOpcEjercicio">
+      <button class="ob-btn" onclick="obElige('ejercicio','Nada o casi nada',this,'obP4')">😴 Nada o casi nada</button>
+      <button class="ob-btn" onclick="obElige('ejercicio','1-2 días por semana',this,'obP4')">🚶 1-2 días/semana</button>
+      <button class="ob-btn" onclick="obElige('ejercicio','3-4 días por semana',this,'obP4')">🏋️ 3-4 días/semana</button>
+      <button class="ob-btn" onclick="obElige('ejercicio','Todos los días',this,'obP4')">🔥 Todos los días</button>
+    </div>
+  </div>
+
+  <!-- PASO 5: Supermercado -->
+  <div class="ob-paso hidden" id="obP5">
+    <div class="ob-titulo">¿Dónde sueles comprar? 🛒</div>
+    <div class="ob-sub">Puedes elegir varios si compras en más de uno</div>
+    <div class="ob-opciones grid2" id="obOpcSuper">
+      <button class="ob-btn" onclick="obMultiSuper('Mercadona',this)">Mercadona</button>
+      <button class="ob-btn" onclick="obMultiSuper('Lidl',this)">Lidl</button>
+      <button class="ob-btn" onclick="obMultiSuper('Aldi',this)">Aldi</button>
+      <button class="ob-btn" onclick="obMultiSuper('Carrefour',this)">Carrefour</button>
+      <button class="ob-btn" onclick="obMultiSuper('Dia',this)">Dia</button>
+      <button class="ob-btn" onclick="obMultiSuper('Consum',this)">Consum</button>
+      <button class="ob-btn" onclick="obMultiSuper('El Corte Inglés',this)">El Corte Inglés</button>
+      <button class="ob-btn" onclick="obMultiSuper('Otro',this)">Otro</button>
+    </div>
+  </div>
+
+</div><!-- fin ob-wrap -->
+
+<div class="ob-footer">
+  <button class="ob-next" id="obNext" onclick="obSiguiente()">Continuar →</button>
+</div>
+</div><!-- fin vista-onboarding -->
+
+<!-- ═══ PLAN SEMANAL ═══ -->
+<div id="vista-plan">
+  <nav class="plan-nav">
+    <button class="btn-back" onclick="mostrar('vista-landing')">← Inicio</button>
+    <div class="plan-nav-logo">ZIA</div>
+    <button class="btn-reiniciar" onclick="irOnboarding()">Nuevo plan</button>
+  </nav>
+
+  <div class="plan-hero">
+    <div class="plan-hero-inner">
+      <h2>Tu plan semanal 🌿</h2>
+      <p id="planSubtitulo">Plan personalizado</p>
+      <div class="plan-stats">
+        <div class="plan-stat"><span class="plan-stat-val" id="planDias">7</span><span class="plan-stat-lab">días</span></div>
+        <div class="plan-stat"><span class="plan-stat-val" id="planKcal">—</span><span class="plan-stat-lab">kcal/día</span></div>
+        <div class="plan-stat"><span class="plan-stat-val">-18€</span><span class="plan-stat-lab">ahorro est.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="plan-body" id="planBody">
+    <!-- días renderizados por JS -->
+  </div>
+
+  <!-- Botones -->
+  <div style="padding:16px 20px;max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:10px">
+    <button onclick="mostrarModalCambios()" style="width:100%;padding:14px;background:white;border:2px solid var(--verde);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;color:var(--verde);cursor:pointer">✏️ ¿Quieres cambiar algo?</button>
+    <button onclick="verLista()" style="width:100%;padding:14px;background:var(--verde);color:white;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer">🛒 Ver lista de la compra →</button>
+  </div>
+
+  <!-- Lista compra (oculta hasta pulsar botón) -->
+  <div class="lista-section hidden" id="listaSection">
+    <div style="display:flex;align-items:center;gap:10px;padding:4px 0 12px;">
+      <button class="btn-back" onclick="bnavIr('plan')" style="flex-shrink:0">← Plan</button>
+      <div class="lista-title" style="flex:1;margin:0">🛒 Lista de la compra</div>
+    </div>
+    <!-- Total ARRIBA siempre visible -->
+    <div class="lista-total" id="listaTotal" style="display:flex;">
+      <div class="total-label">Total estimado</div>
+      <div class="total-valor" id="totalValor">—</div>
+    </div>
+    <div class="lista-cats" id="listaCats"></div>
+  </div>
+
+  <div style="height:80px"></div>
+
+<!-- ═══ MODAL ¿CAMBIOS? ═══ -->
+<div id="modalCambios" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:90%;max-width:420px;max-height:80vh;border-radius:20px;overflow:hidden;z-index:150;background:white;box-shadow:0 0 0 9999px rgba(0,0,0,0.5);padding:28px 20px 40px;box-sizing:border-box;flex-direction:column;animation:fadeUp 0.3s ease">
+    <div style="width:36px;height:4px;background:var(--borde);border-radius:2px;margin:0 auto 20px"></div>
+    <div style="font-family:'Fraunces',serif;font-size:22px;margin-bottom:8px">¿Quieres cambiar algo? 🌿</div>
+    <div style="font-size:14px;color:var(--texto-suave);margin-bottom:24px">Dime si quieres ajustar alguna comida, día o cantidad</div>
+    <textarea id="textoCambios" style="width:100%;padding:14px;border:2px solid var(--borde);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;height:100px;resize:none;outline:none;margin-bottom:12px" placeholder="Ej: Quita el salmón del martes, pon más proteína en el desayuno..."></textarea>
+    <button onclick="aplicarCambios()" style="width:100%;padding:14px;background:var(--verde);color:white;border:none;border-radius:12px;font-size:15px;font-weight:500;cursor:pointer;margin-bottom:10px">Aplicar cambios →</button>
+    <button onclick="sinCambios()" style="width:100%;padding:14px;background:var(--crema-oscuro);color:var(--texto);border:none;border-radius:12px;font-size:15px;cursor:pointer">Está bien, generar lista de la compra →</button>
+</div>
+
+<!-- ═══ CHAT MODAL ═══ -->
+<div id="chatBackdrop" class="chat-backdrop" onclick="cerrarChat()"></div>
+<div class="chat-overlay" id="chatOverlay" onclick="cerrarChatSi(event)">
+  <div class="chat-sheet">
+    <div class="chat-sheet-header">
+      <div class="chat-sheet-title">ZIA 🌿</div>
+      <button class="btn-chat-close" onclick="cerrarChat()">×</button>
+    </div>
+    <div class="chat-msgs" id="chatMsgs"></div>
+    <div style="padding:8px 12px;border-top:1px solid var(--borde);flex-shrink:0">
+      <div style="display:flex;gap:8px;overflow-x:auto;" id="chatChips">
+        <button onclick="chipChat('suplementacion')" style="white-space:nowrap;padding:7px 13px;border-radius:20px;border:1px solid var(--borde);background:white;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;flex-shrink:0">💊 Suplementos</button>
+        <button onclick="chipChat('¿Cómo puedo ahorrar en la compra? Dime ofertas y marcas blancas de mi supermercado')" style="white-space:nowrap;padding:7px 13px;border-radius:20px;border:1px solid var(--borde);background:white;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;flex-shrink:0">💰 Ahorrar</button>
+        <button onclick="toggleSubchips('subCamara')" id="btnCamara" style="white-space:nowrap;padding:7px 13px;border-radius:20px;border:1px solid var(--borde);background:white;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;flex-shrink:0">📸 Cámara ▾</button>
+        <button onclick="toggleSubchips('subDeportes')" id="btnDeportes" style="white-space:nowrap;padding:7px 13px;border-radius:20px;border:1px solid var(--verde);background:#f0f7eb;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif;flex-shrink:0;color:var(--verde);font-weight:500">📅 Deportes ▾</button>
+      </div>
+      <!-- Subchips Cámara -->
+      <div id="subCamara" style="display:none;gap:8px;margin-top:8px;flex-wrap:wrap;">
+        <button onclick="abrirFotoNevera();cerrarSubchips()" style="padding:6px 12px;border-radius:20px;border:1px solid var(--borde);background:var(--crema);font-size:11px;cursor:pointer;font-family:DM Sans,sans-serif">📸 Foto nevera</button>
+        <button onclick="abrirFotoDieta();cerrarSubchips()" style="padding:6px 12px;border-radius:20px;border:1px solid var(--borde);background:var(--crema);font-size:11px;cursor:pointer;font-family:DM Sans,sans-serif">📋 Foto dieta</button>
+      </div>
+      <!-- Subchips Deportes -->
+      <div id="subDeportes" style="display:none;gap:8px;margin-top:8px;flex-wrap:wrap;">
+        <button onclick="abrirPlanDeportista();cerrarSubchips()" style="padding:6px 12px;border-radius:20px;border:1px solid var(--verde);background:#f0f7eb;font-size:11px;cursor:pointer;font-family:DM Sans,sans-serif;color:var(--verde)">📅 Plan semana</button>
+        <button onclick="abrirModalEntreno();cerrarSubchips()" style="padding:6px 12px;border-radius:20px;border:1px solid var(--borde);background:var(--crema);font-size:11px;cursor:pointer;font-family:DM Sans,sans-serif">🏃 Mi entreno hoy</button>
+      </div>
+    </div>
+    <div class="chat-input-row">
+      <input class="chat-txt" id="chatInput" placeholder="Pregúntame algo..." onkeydown="if(event.key==='Enter')enviarChat()">
+      <button class="btn-chat-send" onclick="enviarChat()">
+        <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- input foto nevera oculto -->
+<input type="file" id="inputFoto" accept="image/*" capture="environment" style="display:none" onchange="procesarFotoNevera(this)">
+
+<!-- ═══ BOTTOM NAV ═══ -->
+<nav class="bottom-nav" id="bottomNav">
+  <button class="bnav-btn active" id="bnav-hoy" onclick="bnavIr('hoy')">
+    <span class="bnav-icon">📅</span>Hoy
+  </button>
+  <button class="bnav-btn" id="bnav-chat" onclick="abrirChat()">
+    <span class="bnav-icon">💬</span>ZIA
+  </button>
+  <button class="bnav-btn" id="bnav-perfil" onclick="bnavIr('perfil')">
+    <span class="bnav-icon">👤</span>Perfil
+  </button>
+</nav>
+
+<!-- ═══ RESUMEN POST-CHAT ═══ -->
+<div class="resumen-overlay" id="resumenOverlay">
+  <div class="resumen-sheet">
+    <div class="resumen-title">¿Qué quieres hacer ahora?</div>
+    <div class="resumen-sub" id="resumenSub">Tu plan de esta semana te espera</div>
+    <div class="resumen-btns">
+      <button class="resumen-btn primary" onclick="cerrarResumen('plan')">🥗 Ver mi plan semanal</button>
+      <button class="resumen-btn secondary" onclick="cerrarResumen('lista')">🛒 Ver lista de la compra</button>
+      <button class="resumen-btn secondary" onclick="cerrarResumen('perfil')">👤 Ver mi perfil</button>
+      <button class="resumen-btn secondary" onclick="cerrarResumen('chat')">💬 Seguir hablando con ZIA</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ VISTA HOY ═══ -->
+<div id="vistahoySection" style="display:none;padding:16px 20px 100px;max-width:480px;margin:0 auto;">
+  <div id="hoyHeader" style="background:var(--verde);border-radius:20px;padding:20px;color:white;margin-bottom:16px;">
+    <div style="font-size:12px;opacity:0.8;margin-bottom:4px;" id="hoyFecha"></div>
+    <div style="font-family:'Fraunces',serif;font-size:22px;font-weight:400;margin-bottom:12px;" id="hoySaludo">Buenos días 🌅</div>
+    <div id="hoyEntrenoInfo" style="background:rgba(255,255,255,0.15);border-radius:12px;padding:12px;margin-bottom:12px;display:none;">
+      <div style="font-size:11px;opacity:0.8;margin-bottom:4px;">HOY ENTRENAS</div>
+      <div style="font-size:15px;font-weight:500;" id="hoyEntrenoTxt">—</div>
+    </div>
+    <div id="hoyPreguntaHora">
+      <div style="font-size:13px;opacity:0.9;margin-bottom:10px;">¿A qué hora entrenas hoy?</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <button onclick="elegirHoraEntreno('manana')" style="padding:10px;border-radius:10px;border:none;background:rgba(255,255,255,0.2);color:white;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;">🌅 Mañana<br><span style="font-size:10px;opacity:0.8">6:00 - 10:00</span></button>
+        <button onclick="elegirHoraEntreno('mediodia')" style="padding:10px;border-radius:10px;border:none;background:rgba(255,255,255,0.2);color:white;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;">☀️ Mediodía<br><span style="font-size:10px;opacity:0.8">10:00 - 14:00</span></button>
+        <button onclick="elegirHoraEntreno('tarde')" style="padding:10px;border-radius:10px;border:none;background:rgba(255,255,255,0.2);color:white;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;">🌤️ Tarde<br><span style="font-size:10px;opacity:0.8">14:00 - 19:00</span></button>
+        <button onclick="elegirHoraEntreno('noche')" style="padding:10px;border-radius:10px;border:none;background:rgba(255,255,255,0.2);color:white;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;">🌙 Noche<br><span style="font-size:10px;opacity:0.8">19:00 - 23:00</span></button>
+      </div>
+      <button onclick="elegirHoraEntreno('descanso')" style="width:100%;margin-top:8px;padding:10px;border-radius:10px;border:none;background:rgba(255,255,255,0.1);color:white;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;">😴 Hoy descanso</button>
+    </div>
+  </div>
+  <div id="hoyPlanDia"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+    <button onclick="bnavIr('plan')" style="padding:14px;border-radius:14px;border:1px solid var(--borde);background:white;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;text-align:left;"><div style="font-size:22px;margin-bottom:4px;">🥗</div><div style="font-weight:500">Mi plan</div><div style="font-size:11px;color:var(--texto-suave)">Semana completa</div></button>
+    <button onclick="bnavIr('lista')" style="padding:14px;border-radius:14px;border:1px solid var(--borde);background:white;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;text-align:left;"><div style="font-size:22px;margin-bottom:4px;">🛒</div><div style="font-weight:500">Mi lista</div><div style="font-size:11px;color:var(--texto-suave)">Lista de la compra</div></button>
+    <button onclick="chipChat('suplementacion')" style="padding:14px;border-radius:14px;border:1px solid var(--borde);background:white;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;text-align:left;"><div style="font-size:22px;margin-bottom:4px;">💊</div><div style="font-weight:500">Suplementos</div><div style="font-size:11px;color:var(--texto-suave)">Mis recomendados</div></button>
+    <button onclick="bnavIr('perfil')" style="padding:14px;border-radius:14px;border:1px solid var(--borde);background:white;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;text-align:left;"><div style="font-size:22px;margin-bottom:4px;">📁</div><div style="font-weight:500">Mis menús</div><div style="font-size:11px;color:var(--texto-suave)">Historial guardado</div></button>
+  </div>
+  <div id="notifBanner" style="background:linear-gradient(135deg,#1a3a0a,#2d6a10);border-radius:14px;padding:16px;color:white;margin-bottom:12px;">
+    <div style="font-size:15px;font-weight:500;margin-bottom:4px;">🔔 Activa las notificaciones</div>
+    <div style="font-size:12px;opacity:0.8;margin-bottom:12px;">Recibe cada día lo que te toca: entreno, comidas y suplementos</div>
+    <button onclick="activarNotificaciones()" style="width:100%;padding:10px;background:white;color:var(--verde);border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;">Activar notificaciones →</button>
+  </div>
+</div>
+
+<!-- ═══ PERFIL ═══ -->
+<div class="perfil-section" id="perfilSection">
+  <div style="max-width:480px;margin:0 auto;padding:16px 20px 100px;">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+    <button class="btn-back" onclick="bnavIr('hoy')">← Hoy</button>
+  </div>
+  <div class="perfil-avatar-card">
+    <div class="perfil-avatar" id="perfilAvatar">E</div>
+    <div class="perfil-nombre-txt" id="perfilNombre">Tu nombre</div>
+    <div class="perfil-obj" id="perfilObj">Objetivo: —</div>
+    <div class="perfil-stats">
+      <div class="perfil-stat"><div class="perfil-stat-val" id="perfilSuper">—</div><div class="perfil-stat-lab">Supermercado</div></div>
+      <div class="perfil-stat"><div class="perfil-stat-val" id="perfilPeso">—</div><div class="perfil-stat-lab">Peso (kg)</div></div>
+      <div class="perfil-stat"><div class="perfil-stat-val">7</div><div class="perfil-stat-lab">Días de plan</div></div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;">
+    <button onclick="bnavIr('hoy')" style="padding:12px 8px;border-radius:14px;border:1px solid var(--borde);background:white;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;text-align:center;"><div style="font-size:20px;margin-bottom:4px;">📅</div>Mi día</button>
+    <button onclick="bnavIr('plan')" style="padding:12px 8px;border-radius:14px;border:1px solid var(--borde);background:white;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;text-align:center;"><div style="font-size:20px;margin-bottom:4px;">🥗</div>Mi plan</button>
+    <button onclick="bnavIr('lista')" style="padding:12px 8px;border-radius:14px;border:1px solid var(--borde);background:white;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;text-align:center;"><div style="font-size:20px;margin-bottom:4px;">🛒</div>Mi lista</button>
+    <button onclick="chipChat('suplementacion')" style="padding:12px 8px;border-radius:14px;border:1px solid var(--borde);background:white;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;text-align:center;"><div style="font-size:20px;margin-bottom:4px;">💊</div>Suplementos</button>
+    <button onclick="abrirRegistroPeso()" style="padding:12px 8px;border-radius:14px;border:1px solid var(--borde);background:white;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;text-align:center;"><div style="font-size:20px;margin-bottom:4px;">⚖️</div>Mi peso</button>
+    <button onclick="verHistorialMenus()" style="padding:12px 8px;border-radius:14px;border:1px solid var(--borde);background:white;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;text-align:center;"><div style="font-size:20px;margin-bottom:4px;">📁</div>Mis menús</button>
+  </div>
+  <div class="opciones-lista">
+    <div class="opcion-item" onclick="enviarPlanEmail()"><span class="opcion-emoji">📧</span><span class="opcion-txt">Enviarme el plan por email</span><span class="opcion-arrow">›</span></div>
+    <div class="opcion-item" onclick="cambiarObjetivo()"><span class="opcion-emoji">🎯</span><span class="opcion-txt">Cambiar mi objetivo</span><span class="opcion-arrow">›</span></div>
+    <div class="opcion-item" onclick="cambiarSupermercado()"><span class="opcion-emoji">🛒</span><span class="opcion-txt">Cambiar supermercado</span><span class="opcion-arrow">›</span></div>
+    <div class="opcion-item" onclick="abrirPlanDeportista()"><span class="opcion-emoji">⌚</span><span class="opcion-txt">Mis dispositivos y plataformas</span><span class="opcion-arrow">›</span></div>
+  </div>
+  <div style="background:white;border:1px solid var(--borde);border-radius:16px;overflow:hidden;margin-bottom:12px;">
+    <div style="padding:14px 16px;border-bottom:1px solid var(--borde);display:flex;align-items:center;gap:8px;"><span style="font-size:18px">📁</span><span style="font-size:15px;font-weight:500">Mis menús guardados</span></div>
+    <div id="historialMenusList" style="padding:8px 0;"><div style="text-align:center;padding:20px;color:var(--texto-suave);font-size:13px;" id="historialVacio">Los menús generados aparecerán aquí 📋</div></div>
+  </div>
+  <div style="background:white;border:1px solid var(--borde);border-radius:16px;overflow:hidden;margin-bottom:12px;">
+    <div style="padding:14px 16px;border-bottom:1px solid var(--borde);display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:18px">⚖️</span><span style="font-size:15px;font-weight:500">Seguimiento de peso</span></div><button onclick="abrirRegistroPeso()" style="background:var(--verde);color:white;border:none;border-radius:8px;padding:6px 12px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif">+ Registrar</button></div>
+    <div style="padding:16px;"><canvas id="pesoChart" height="140" style="width:100%;display:block;"></canvas><div id="pesoVacio" style="text-align:center;padding:20px;color:var(--texto-suave);font-size:13px;">Registra tu peso cada semana para ver tu evolución 📈</div></div>
+    <div style="padding:0 16px 14px;display:flex;gap:16px;"><div style="flex:1;text-align:center;"><div style="font-family:'Fraunces',serif;font-size:20px;font-weight:600;color:var(--verde)" id="pesoActual">—</div><div style="font-size:11px;color:var(--texto-suave)">Peso actual</div></div><div style="flex:1;text-align:center;"><div style="font-family:'Fraunces',serif;font-size:20px;font-weight:600;" id="pesoCambio">—</div><div style="font-size:11px;color:var(--texto-suave)">vs semana ant.</div></div><div style="flex:1;text-align:center;"><div style="font-family:'Fraunces',serif;font-size:20px;font-weight:600;color:var(--verde)" id="pesoObjetivo">—</div><div style="font-size:11px;color:var(--texto-suave)">Objetivo</div></div></div>
+  </div>
+  <div class="notif-card">
+    <div class="notif-title">🔔 Notificaciones ZIA</div>
+    <div class="notif-sub">Mensajes de seguimiento y motivación</div>
+    <div class="notif-toggle"><span>📅 Diario — plan del día</span><button class="toggle-switch on" onclick="this.classList.toggle('on')"></button></div>
+    <div class="notif-toggle"><span>🛒 Domingo — recordatorio compra</span><button class="toggle-switch on" onclick="this.classList.toggle('on')"></button></div>
+    <div class="notif-toggle"><span>💪 Miércoles — seguimiento</span><button class="toggle-switch on" onclick="this.classList.toggle('on')"></button></div>
+    <div class="notif-toggle"><span>🎉 Viernes — fin de semana</span><button class="toggle-switch on" onclick="this.classList.toggle('on')"></button></div>
+    <div class="notif-toggle"><span>🌿 Tips diarios de nutrición</span><button class="toggle-switch" onclick="this.classList.toggle('on')"></button></div>
+  </div>
+  <div class="opciones-lista"><div class="opcion-item"><span class="opcion-emoji">💳</span><span class="opcion-txt">Mi suscripción — Plan Gratuito</span><span class="opcion-arrow">›</span></div></div>
+  <button class="btn-logout" onclick="reiniciar()">Cerrar sesión</button>
+  </div>
+</div><!-- fin perfilSection -->
+
+<!-- ═══ MODAL ENTRENO ═══ -->
+<div id="modalEntreno" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1100;align-items:flex-end;">
+  <div style="background:white;border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;animation:slideUp 0.3s ease;">
+    <div style="font-family:'Fraunces',serif;font-size:20px;margin-bottom:4px;">Sincronizar entreno 🏃</div>
+    <div style="font-size:13px;color:var(--texto-suave);margin-bottom:16px;">¿Desde dónde quieres sincronizar?</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+      <button onclick="seleccionarPlataforma('trainingpeaks')" id="plt-trainingpeaks" style="padding:10px 8px;border-radius:12px;border:2px solid var(--borde);background:white;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;display:flex;align-items:center;gap:6px;">
+        📊 TrainingPeaks
+      </button>
+      <button onclick="seleccionarPlataforma('garmin')" id="plt-garmin" style="padding:10px 8px;border-radius:12px;border:2px solid var(--borde);background:white;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;display:flex;align-items:center;gap:6px;">
+        ⌚ Garmin
+      </button>
+      <button onclick="seleccionarPlataforma('strava')" id="plt-strava" style="padding:10px 8px;border-radius:12px;border:2px solid var(--borde);background:white;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;display:flex;align-items:center;gap:6px;">
+        🚴 Strava
+      </button>
+      <button onclick="seleccionarPlataforma('whoop')" id="plt-whoop" style="padding:10px 8px;border-radius:12px;border:2px solid var(--borde);background:white;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;display:flex;align-items:center;gap:6px;">
+        💍 Whoop
+      </button>
+      <button onclick="seleccionarPlataforma('manual')" id="plt-manual" style="padding:10px 8px;border-radius:12px;border:2px solid var(--borde);background:white;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;grid-column:span 2;display:flex;align-items:center;gap:6px;">
+        ✍️ Lo describo yo
+      </button>
+    </div>
+
+    <textarea id="inputEntreno" placeholder="Pega aquí el resumen de tu plataforma o describe tu entreno..." style="width:100%;padding:12px;border:2px solid var(--borde);border-radius:12px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;resize:none;height:90px;margin-bottom:12px;display:none;"></textarea>
+
+    <button onclick="analizarEntreno()" id="btnAnalizarEntreno" style="width:100%;padding:14px;background:var(--verde);color:white;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;display:none;">Analizar y ajustar mi nutrición →</button>
+    <button onclick="cerrarModalEntreno()" style="width:100%;padding:12px;background:none;border:none;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--texto-suave);cursor:pointer;margin-top:4px;">Cancelar</button>
+  </div>
+</div>
+
+<!-- input foto dieta oculto -->
+<input type="file" id="inputFotoDieta" accept="image/*,application/pdf" multiple style="display:none" onchange="procesarFotoDieta(this)">
+
+<!-- ═══ MODAL PLAN DEPORTISTA ═══ -->
+<div id="modalPlanDeportista" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1100;align-items:flex-end;">
+  <div style="background:white;border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-height:90dvh;overflow-y:auto;animation:slideUp 0.3s ease;">
+    <div style="font-family:'Fraunces',serif;font-size:20px;margin-bottom:4px;">Plan semanal deportista 📅</div>
+    <div style="font-size:13px;color:var(--texto-suave);margin-bottom:20px;">Elige tu plataforma y sube tu plan de entrenos — ZIA generará tu menú nutricional adaptado día a día</div>
+
+    <!-- Plataformas como acordeón -->
+    <div style="display:flex;flex-direction:column;gap:8px;" id="plataformasList">
+
+      <!-- Strava -->
+      <div class="plat-card" id="plat-strava">
+        <button onclick="togglePlat('strava')" style="width:100%;padding:12px 14px;border-radius:12px;border:2px solid var(--borde);background:white;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-family:'DM Sans',sans-serif;">
+          <span style="display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;">🚴 Strava</span>
+          <span id="arrow-strava" style="font-size:12px;color:var(--texto-suave);">▾</span>
+        </button>
+        <div id="body-strava" style="display:none;padding:12px 14px;border:2px solid var(--borde);border-top:none;border-radius:0 0 12px 12px;background:#fafafa;">
+          <div style="font-size:12px;color:var(--verde);background:#f0f7eb;border-radius:8px;padding:8px 10px;margin-bottom:10px;">📌 Ve a tu calendario semanal en Strava → captura pantalla y súbela aquí</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <button onclick="triggerFilePlan('strava','image')" style="padding:10px;border-radius:10px;border:1px dashed var(--verde);background:#f0f7eb;color:var(--verde);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">📸 Adjuntar captura / foto</button>
+            <button onclick="triggerFilePlan('strava','pdf')" style="padding:10px;border-radius:10px;border:1px solid var(--borde);background:white;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">📄 Subir PDF o CSV</button>
+            <button onclick="mostrarTextoPlan('strava')" style="padding:10px;border-radius:10px;border:1px solid var(--borde);background:white;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">✍️ Pegar texto del plan</button>
+            <button style="padding:10px;border-radius:10px;border:1px solid var(--borde);background:var(--crema-oscuro);font-size:12px;cursor:default;font-family:'DM Sans',sans-serif;color:var(--texto-suave);">⌚ Vincular dispositivo — próximamente</button>
+          </div>
+          <textarea id="texto-strava" placeholder="Pega aquí tu plan semanal de Strava..." style="display:none;width:100%;margin-top:8px;padding:10px;border:1px solid var(--borde);border-radius:10px;font-size:13px;font-family:'DM Sans',sans-serif;resize:none;height:80px;outline:none;"></textarea>
+          <button onclick="analizarPlanPlataforma('strava')" id="btn-strava" style="display:none;width:100%;margin-top:8px;padding:12px;background:var(--verde);color:white;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;">Generar menú semanal →</button>
+        </div>
+      </div>
+
+      <!-- TrainingPeaks -->
+      <div class="plat-card" id="plat-trainingpeaks">
+        <button onclick="togglePlat('trainingpeaks')" style="width:100%;padding:12px 14px;border-radius:12px;border:2px solid var(--borde);background:white;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-family:'DM Sans',sans-serif;">
+          <span style="display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;">📊 TrainingPeaks</span>
+          <span id="arrow-trainingpeaks" style="font-size:12px;color:var(--texto-suave);">▾</span>
+        </button>
+        <div id="body-trainingpeaks" style="display:none;padding:12px 14px;border:2px solid var(--borde);border-top:none;border-radius:0 0 12px 12px;background:#fafafa;">
+          <div style="font-size:12px;color:var(--verde);background:#f0f7eb;border-radius:8px;padding:8px 10px;margin-bottom:10px;">📌 Abre tu semana en TrainingPeaks → captura pantalla o copia el texto de cada sesión</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <button onclick="triggerFilePlan('trainingpeaks','image')" style="padding:10px;border-radius:10px;border:1px dashed var(--verde);background:#f0f7eb;color:var(--verde);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">📸 Adjuntar captura / foto</button>
+            <button onclick="triggerFilePlan('trainingpeaks','pdf')" style="padding:10px;border-radius:10px;border:1px solid var(--borde);background:white;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">📄 Subir PDF o CSV</button>
+            <button onclick="mostrarTextoPlan('trainingpeaks')" style="padding:10px;border-radius:10px;border:1px solid var(--borde);background:white;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">✍️ Pegar texto del plan</button>
+            <button style="padding:10px;border-radius:10px;border:1px solid var(--borde);background:var(--crema-oscuro);font-size:12px;cursor:default;font-family:'DM Sans',sans-serif;color:var(--texto-suave);">⌚ Vincular dispositivo — próximamente</button>
+          </div>
+          <textarea id="texto-trainingpeaks" placeholder="Pega aquí tu plan de TrainingPeaks (TSS, tipo, duración de cada día)..." style="display:none;width:100%;margin-top:8px;padding:10px;border:1px solid var(--borde);border-radius:10px;font-size:13px;font-family:'DM Sans',sans-serif;resize:none;height:80px;outline:none;"></textarea>
+          <button onclick="analizarPlanPlataforma('trainingpeaks')" id="btn-trainingpeaks" style="display:none;width:100%;margin-top:8px;padding:12px;background:var(--verde);color:white;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;">Generar menú semanal →</button>
+        </div>
+      </div>
+
+      <!-- Garmin -->
+      <div class="plat-card" id="plat-garmin">
+        <button onclick="togglePlat('garmin')" style="width:100%;padding:12px 14px;border-radius:12px;border:2px solid var(--borde);background:white;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-family:'DM Sans',sans-serif;">
+          <span style="display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;">⌚ Garmin Connect</span>
+          <span id="arrow-garmin" style="font-size:12px;color:var(--texto-suave);">▾</span>
+        </button>
+        <div id="body-garmin" style="display:none;padding:12px 14px;border:2px solid var(--borde);border-top:none;border-radius:0 0 12px 12px;background:#fafafa;">
+          <div style="font-size:12px;color:var(--verde);background:#f0f7eb;border-radius:8px;padding:8px 10px;margin-bottom:10px;">📌 En Garmin Connect → Entrenamientos → vista semanal → captura y sube</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <button onclick="triggerFilePlan('garmin','image')" style="padding:10px;border-radius:10px;border:1px dashed var(--verde);background:#f0f7eb;color:var(--verde);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">📸 Adjuntar captura / foto</button>
+            <button onclick="triggerFilePlan('garmin','pdf')" style="padding:10px;border-radius:10px;border:1px solid var(--borde);background:white;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">📄 Subir PDF o CSV</button>
+            <button onclick="mostrarTextoPlan('garmin')" style="padding:10px;border-radius:10px;border:1px solid var(--borde);background:white;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">✍️ Pegar texto del plan</button>
+            <button style="padding:10px;border-radius:10px;border:1px solid var(--borde);background:var(--crema-oscuro);font-size:12px;cursor:default;font-family:'DM Sans',sans-serif;color:var(--texto-suave);">⌚ Vincular dispositivo — próximamente</button>
+          </div>
+          <textarea id="texto-garmin" placeholder="Pega aquí tu plan semanal de Garmin..." style="display:none;width:100%;margin-top:8px;padding:10px;border:1px solid var(--borde);border-radius:10px;font-size:13px;font-family:'DM Sans',sans-serif;resize:none;height:80px;outline:none;"></textarea>
+          <button onclick="analizarPlanPlataforma('garmin')" id="btn-garmin" style="display:none;width:100%;margin-top:8px;padding:12px;background:var(--verde);color:white;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;">Generar menú semanal →</button>
+        </div>
+      </div>
+
+      <!-- Whoop -->
+      <div class="plat-card" id="plat-whoop">
+        <button onclick="togglePlat('whoop')" style="width:100%;padding:12px 14px;border-radius:12px;border:2px solid var(--borde);background:white;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-family:'DM Sans',sans-serif;">
+          <span style="display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;">💍 Whoop</span>
+          <span id="arrow-whoop" style="font-size:12px;color:var(--texto-suave);">▾</span>
+        </button>
+        <div id="body-whoop" style="display:none;padding:12px 14px;border:2px solid var(--borde);border-top:none;border-radius:0 0 12px 12px;background:#fafafa;">
+          <div style="font-size:12px;color:var(--verde);background:#f0f7eb;border-radius:8px;padding:8px 10px;margin-bottom:10px;">📌 En Whoop → Diario → captura tu Recovery Score, Strain semanal y HRV y pégalos</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <button onclick="triggerFilePlan('whoop','image')" style="padding:10px;border-radius:10px;border:1px dashed var(--verde);background:#f0f7eb;color:var(--verde);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">📸 Adjuntar captura / foto</button>
+            <button onclick="mostrarTextoPlan('whoop')" style="padding:10px;border-radius:10px;border:1px solid var(--borde);background:white;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">✍️ Pegar datos de recuperación</button>
+            <button style="padding:10px;border-radius:10px;border:1px solid var(--borde);background:var(--crema-oscuro);font-size:12px;cursor:default;font-family:'DM Sans',sans-serif;color:var(--texto-suave);">⌚ Vincular dispositivo — próximamente</button>
+          </div>
+          <textarea id="texto-whoop" placeholder="Ej: Recovery 72%, Strain 14.2, HRV 58ms, Sueño 7h20m..." style="display:none;width:100%;margin-top:8px;padding:10px;border:1px solid var(--borde);border-radius:10px;font-size:13px;font-family:'DM Sans',sans-serif;resize:none;height:80px;outline:none;"></textarea>
+          <button onclick="analizarPlanPlataforma('whoop')" id="btn-whoop" style="display:none;width:100%;margin-top:8px;padding:12px;background:var(--verde);color:white;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;">Ajustar nutrición por recuperación →</button>
+        </div>
+      </div>
+
+      <!-- Apple/Google Fit -->
+      <div class="plat-card" id="plat-apple">
+        <button onclick="togglePlat('apple')" style="width:100%;padding:12px 14px;border-radius:12px;border:2px solid var(--borde);background:white;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-family:'DM Sans',sans-serif;">
+          <span style="display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;">🍎 Apple Fitness / Google Fit</span>
+          <span id="arrow-apple" style="font-size:12px;color:var(--texto-suave);">▾</span>
+        </button>
+        <div id="body-apple" style="display:none;padding:12px 14px;border:2px solid var(--borde);border-top:none;border-radius:0 0 12px 12px;background:#fafafa;">
+          <div style="font-size:12px;color:var(--verde);background:#f0f7eb;border-radius:8px;padding:8px 10px;margin-bottom:10px;">📌 En Apple Salud o Google Fit → Resumen semanal → captura y sube aquí</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <button onclick="triggerFilePlan('apple','image')" style="padding:10px;border-radius:10px;border:1px dashed var(--verde);background:#f0f7eb;color:var(--verde);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">📸 Adjuntar captura / foto</button>
+            <button onclick="mostrarTextoPlan('apple')" style="padding:10px;border-radius:10px;border:1px solid var(--borde);background:white;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">✍️ Pegar datos de actividad</button>
+            <button style="padding:10px;border-radius:10px;border:1px solid var(--borde);background:var(--crema-oscuro);font-size:12px;cursor:default;font-family:'DM Sans',sans-serif;color:var(--texto-suave);">⌚ Vincular dispositivo — próximamente</button>
+          </div>
+          <textarea id="texto-apple" placeholder="Pega aquí tu resumen semanal de actividad..." style="display:none;width:100%;margin-top:8px;padding:10px;border:1px solid var(--borde);border-radius:10px;font-size:13px;font-family:'DM Sans',sans-serif;resize:none;height:80px;outline:none;"></textarea>
+          <button onclick="analizarPlanPlataforma('apple')" id="btn-apple" style="display:none;width:100%;margin-top:8px;padding:12px;background:var(--verde);color:white;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;">Generar menú semanal →</button>
+        </div>
+      </div>
+
+    </div><!-- fin plataformasList -->
+
+    <!-- inputs file ocultos -->
+    <input type="file" id="inputFilePlanImg" accept="image/*" multiple style="display:none" onchange="procesarFilePlan(this,'image')">
+    <input type="file" id="inputFilePlanPdf" accept=".pdf,.csv" style="display:none" onchange="procesarFilePlan(this,'pdf')">
+
+    <button onclick="document.getElementById('modalPlanDeportista').style.display='none'" style="width:100%;padding:12px;background:none;border:none;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--texto-suave);cursor:pointer;margin-top:16px;">Cancelar</button>
+  </div>
+</div>
+
+<script>
+const API = 'https://zealous-forgiveness-production-a5a7.up.railway.app';
+
+// ── ESTADO ──
+let perfil = {
+  nombre:'', genero:'', edad:'', peso:'', altura:'',
+  objetivo:'', ejercicio:'', supermercado:'', supermercados:[],
+  intolerancias:['Ninguna']
+};
+let pasoActual = 1;
+const totalPasos = 5;
+let chatHistorial = [];
+
+// ── NAVEGACIÓN ──
+function mostrar(id) {
+  ['vista-landing','vista-onboarding','vista-plan'].forEach(v => {
+    document.getElementById(v).style.display = 'none';
+  });
+  document.getElementById(id).style.display = 'block';
+  window.scrollTo(0,0);
+  const bnav = document.getElementById('bottomNav');
+  if (id === 'vista-plan') {
+    bnav.classList.add('show');
+    document.getElementById('vista-plan').style.paddingBottom = '70px';
+    // Ocultar secciones dinámicas
+    const hoyEl = document.getElementById('vistahoySection');
+    const perfilEl = document.getElementById('perfilSection');
+    const listaEl = document.getElementById('listaSection');
+    if (hoyEl) hoyEl.style.display = 'none';
+    if (perfilEl) perfilEl.classList.remove('show');
+    if (listaEl) listaEl.classList.add('hidden');
+    // Mostrar Vista Hoy por defecto
+    setTimeout(() => bnavIr('hoy'), 200);
+  } else {
+    bnav.classList.remove('show');
+  }
+}
+
+function bnavIr(seccion) {
+  document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('bnav-'+seccion)?.classList.add('active');
+
+  // Ocultar todas las secciones dinámicas
+  const listaEl = document.getElementById('listaSection');
+  const perfilEl = document.getElementById('perfilSection');
+  const hoyEl = document.getElementById('vistahoySection');
+  if (listaEl) listaEl.classList.add('hidden');
+  if (perfilEl) perfilEl.classList.remove('show');
+  if (hoyEl) hoyEl.style.display = 'none';
+
+  if (seccion === 'hoy') {
+    if (hoyEl) { hoyEl.style.display = 'block'; iniciarVistahoy(); }
+    window.scrollTo(0,0);
+  } else if (seccion === 'plan') {
+    window.scrollTo(0,0);
+  } else if (seccion === 'lista') {
+    verLista();
+    if (listaEl) {
+      listaEl.classList.remove('hidden');
+      setTimeout(() => listaEl.scrollIntoView({behavior:'smooth'}), 200);
+    }
+  } else if (seccion === 'perfil') {
+    if (perfilEl) {
+      perfilEl.classList.add('show');
+      renderPerfil();
+      setTimeout(renderPesoChart, 150);
+      window.scrollTo(0,0);
+    }
+  } else if (seccion === 'chat') {
+    abrirChat();
+  }
+}
+
+function renderPerfil() {
+  const inicial = (perfil.nombre||'U').charAt(0).toUpperCase();
+  document.getElementById('perfilAvatar').textContent = inicial;
+  document.getElementById('perfilNombre').textContent = perfil.nombre || 'Tu nombre';
+  document.getElementById('perfilObj').textContent = 'Objetivo: ' + (perfil.objetivo||'—');
+  document.getElementById('perfilSuper').textContent = perfil.supermercado || '—';
+  document.getElementById('perfilPeso').textContent = perfil.peso ? perfil.peso+'kg' : '—';
+  renderHistorial();
+}
+
+function enviarPlanEmail() {
+  const email = prompt('¿A qué email te envío el plan?');
+  if (email) alert('¡Plan enviado a ' + email + '! (próximamente disponible)');
+}
+
+function cambiarObjetivo() {
+  abrirChat();
+  setTimeout(() => {
+    document.getElementById('chatInput').value = 'Quiero cambiar mi objetivo';
+    enviarChat();
+  }, 500);
+}
+
+function cambiarSupermercado() {
+  const supers = ['Mercadona','Lidl','Aldi','Carrefour','Dia','Consum','El Corte Inglés'];
+  const nuevo = prompt('¿Cuál es tu supermercado?\n'+supers.join(', '));
+  if (nuevo) {
+    perfil.supermercado = nuevo;
+    renderPerfil();
+    alert('Supermercado actualizado a ' + nuevo);
+  }
+}
+
+function reiniciar() {
+  if (confirm('¿Cerrar sesión y volver al inicio?')) {
+    perfil = { nombre:'', genero:'', edad:'', peso:'', altura:'', objetivo:'', ejercicio:'', supermercado:'', intolerancias:['Ninguna'] };
+    chatHistorial = [];
+    mostrar('vista-landing');
+  }
+}
+
+function irOnboarding() {
+  pasoActual = 1;
+  perfil = { nombre:'', genero:'', edad:'', peso:'', altura:'', objetivo:'', ejercicio:'', supermercado:'', supermercados:[], intolerancias:['Ninguna'] };
+  actualizarObBarra();
+  [1,2,3,4,5].forEach(i => {
+    document.getElementById('obP'+i).classList.add('hidden');
+  });
+  document.getElementById('obP1').classList.remove('hidden');
+  document.getElementById('obNext').disabled = false;
+  mostrar('vista-onboarding');
+}
+
+// ── ONBOARDING ──
+function actualizarObBarra() {
+  document.getElementById('obBarra').style.width = (pasoActual/totalPasos*100)+'%';
+  document.getElementById('obNum').textContent = pasoActual+' de '+totalPasos;
+}
+
+function obMultiSuper(valor, btn) {
+  btn.classList.toggle('sel');
+  if (!perfil.supermercados) perfil.supermercados = [];
+  if (btn.classList.contains('sel')) {
+    if (!perfil.supermercados.includes(valor)) perfil.supermercados.push(valor);
+  } else {
+    perfil.supermercados = perfil.supermercados.filter(s => s !== valor);
+  }
+  // Habilitar/deshabilitar botón continuar
+  document.getElementById('obNext').disabled = perfil.supermercados.length === 0;
+}
+
+function obElige(campo, valor, btn, pasoId) {
+  perfil[campo] = valor;
+  document.getElementById('obOpc'+pasoId.replace('obP','')==='2'?'Objetivo':
+    pasoId==='obP4'?'obOpcEjercicio':
+    pasoId==='obP5'?'obOpcSuper':'') ;
+  // Deseleccionar todos en el grupo
+  btn.closest('.ob-opciones').querySelectorAll('.ob-btn').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
+  // Auto-avanzar después de 300ms
+  setTimeout(() => obSiguiente(), 300);
+}
+
+function obMulti(valor, btn) {
+  if (valor === 'Ninguna') {
+    document.querySelectorAll('#obOpcIntol .ob-btn').forEach(b => b.classList.remove('sel'));
+    btn.classList.add('sel');
+    perfil.intolerancias = ['Ninguna'];
+  } else {
+    document.querySelector('#obOpcIntol .ob-btn').classList.remove('sel'); // quita Ninguna
+    btn.classList.toggle('sel');
+    perfil.intolerancias = perfil.intolerancias.filter(i => i !== 'Ninguna');
+    if (btn.classList.contains('sel')) {
+      if (!perfil.intolerancias.includes(valor)) perfil.intolerancias.push(valor);
+    } else {
+      perfil.intolerancias = perfil.intolerancias.filter(i => i !== valor);
+    }
+    if (perfil.intolerancias.length === 0) {
+      perfil.intolerancias = ['Ninguna'];
+      document.querySelector('#obOpcIntol .ob-btn').classList.add('sel');
+    }
+  }
+}
+
+function obSiguiente() {
+  // Validar paso actual
+  if (pasoActual === 1) {
+    perfil.nombre = document.getElementById('obNombre').value.trim();
+    perfil.genero = document.getElementById('obGenero').value;
+    perfil.edad   = parseInt(document.getElementById('obEdad').value);
+    // Peso y altura: aceptar coma o punto, y metros o cm
+    const pesoRaw = document.getElementById('obPeso').value.replace(',','.').replace(/[^\d.]/g,'');
+    const alturaRaw = document.getElementById('obAltura').value.replace(',','.').replace(/[^\d.]/g,'');
+    perfil.peso   = parseFloat(pesoRaw);
+    // Si altura viene en metros (ej 1.70 o 1,70), convertir a cm
+    let alturaNum = parseFloat(alturaRaw);
+    if (alturaNum > 0 && alturaNum < 3) alturaNum = Math.round(alturaNum * 100);
+    perfil.altura = alturaNum;
+
+    if (!perfil.nombre || perfil.nombre.length < 2) {
+      document.getElementById('obNombre').style.borderColor='var(--rojo)';
+      document.getElementById('obNombre').placeholder='Mínimo 2 letras';
+      document.getElementById('obNombre').focus();
+      setTimeout(()=>document.getElementById('obNombre').style.borderColor='',1500);
+      return;
+    }
+    if (!perfil.edad || perfil.edad < 10 || perfil.edad > 100) {
+      document.getElementById('obEdad').style.borderColor='var(--rojo)';
+      document.getElementById('obEdad').placeholder='Entre 10 y 100';
+      document.getElementById('obEdad').focus();
+      setTimeout(()=>document.getElementById('obEdad').style.borderColor='',1500);
+      return;
+    }
+    if (!perfil.peso || perfil.peso < 30 || perfil.peso > 250) {
+      document.getElementById('obPeso').style.borderColor='var(--rojo)';
+      document.getElementById('obPeso').placeholder='Ej: 68 o 68,5 kg';
+      document.getElementById('obPeso').focus();
+      setTimeout(()=>document.getElementById('obPeso').style.borderColor='',1500);
+      return;
+    }
+    if (!perfil.altura || perfil.altura < 100 || perfil.altura > 250) {
+      document.getElementById('obAltura').style.borderColor='var(--rojo)';
+      document.getElementById('obAltura').placeholder='Ej: 170 cm o 1,70 m';
+      document.getElementById('obAltura').focus();
+      setTimeout(()=>document.getElementById('obAltura').style.borderColor='',1500);
+      return;
+    }
+  }
+  if (pasoActual === 2 && !perfil.objetivo) return;
+  if (pasoActual === 4 && !perfil.ejercicio) return;
+  if (pasoActual === 5 && (!perfil.supermercados || !perfil.supermercados.length)) return;
+
+  if (pasoActual === totalPasos) {
+    // Último paso → generar plan
+    // Compatibilidad: supermercado principal = primero de la lista
+    perfil.supermercado = (perfil.supermercados || [perfil.supermercado])[0] || 'Mercadona';
+    generarPlan();
+    return;
+  }
+
+  document.getElementById('obP'+pasoActual).classList.add('hidden');
+  pasoActual++;
+  document.getElementById('obP'+pasoActual).classList.remove('hidden');
+  actualizarObBarra();
+}
+
+// ── GENERAR PLAN ──
+async function generarPlan() {
+  mostrar('vista-plan');
+  // Mostrar demo INMEDIATAMENTE sin esperar al backend
+  renderPlanDemo();
+
+  // Luego intentar obtener el plan real en background
+  try {
+    const controller = new AbortController();
+    setTimeout(() => controller.abort(), 85000);
+    const res = await fetch(API+'/web/generar-plan', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer anonimo'},
+      signal: controller.signal,
+      body: JSON.stringify({
+        nombre: perfil.nombre, genero: perfil.genero, edad: perfil.edad,
+        peso: perfil.peso, altura: perfil.altura, objetivo: perfil.objetivo,
+        ejercicio: perfil.ejercicio, intolerancias: perfil.intolerancias.join(', '),
+        supermercado: perfil.supermercado, presupuesto: '60'
+      })
+    });
+    const data = await res.json();
+    if (data.ok && data.plan) {
+      // Sustituir demo con plan real
+      renderPlan(data.plan);
+      // Guardar en historial
+      const fechaStr = new Date().toLocaleDateString('es-ES', {weekday:'short', day:'numeric', month:'short'});
+      guardarMenuHistorial(`Plan semanal — ${perfil.objetivo||'personalizado'}`, `Plan de 7 días generado para ${perfil.nombre||'usuario'}. Supermercado: ${perfil.supermercado||'—'}. Objetivo: ${perfil.objetivo||'—'}.`);
+    }
+  } catch(e) {
+    // Ya está el demo, no hacer nada
+  }
+}
+
+// ── RENDER PLAN ──
+function normalizarPlan(plan) {
+  const rawDias = plan.dias || [];
+  if (!rawDias.length) return [];
+
+  return rawDias.map(diaObj => {
+    const resultado = { dia: diaObj.dia || 'Día' };
+    const comidas = diaObj.comidas || [];
+    comidas.forEach(c => {
+      const t = (c.tipo || '').toLowerCase();
+      if (t.includes('desayuno')) resultado.desayuno = c;
+      else if (t.includes('almuerzo') || t.includes('comida')) resultado.comida = c;
+      else if (t.includes('cena')) resultado.cena = c;
+    });
+    return resultado;
+  }).filter(d => d.desayuno || d.comida || d.cena);
+}
+
+function renderPlan(plan) {
+  const dias = normalizarPlan(plan);
+  if (!dias.length) { 
+    document.getElementById('planBody').innerHTML = '<div style="text-align:center;padding:40px;color:var(--texto-suave)">Preparando tu plan...</div>';
+    return; 
+  }
+
+  document.getElementById('planSubtitulo').textContent =
+    (perfil.objetivo||'Plan personalizado') + ' · ' + (perfil.supermercado||'');
+
+  // Calcular kcal medio
+  const kcals = dias.map(d =>
+    (d.desayuno?.kcal||d.desayuno?.calorias||0) +
+    (d.comida?.kcal||d.comida?.calorias||0) +
+    (d.cena?.kcal||d.cena?.calorias||0)
+  ).filter(k => k > 0);
+  const kcalMedio = kcals.length ? Math.round(kcals.reduce((a,b)=>a+b,0)/kcals.length) : 0;
+  document.getElementById('planKcal').textContent = kcalMedio ? '~'+kcalMedio : '~1800';
+  document.getElementById('planDias').textContent = dias.length;
+
+  const body = document.getElementById('planBody');
+  body.innerHTML = '';
+
+  dias.forEach((dia, i) => {
+    const kcal = (dia.desayuno?.kcal||dia.desayuno?.calorias||0) +
+                 (dia.comida?.kcal||dia.comida?.calorias||0) +
+                 (dia.cena?.kcal||dia.cena?.calorias||0);
+
+    const card = document.createElement('div');
+    card.className = 'dia-card' + (i===0?' open':'');
+    card.innerHTML = `
+      <div class="dia-header" onclick="toggleDia(this.parentElement)">
+        <div class="dia-nombre">
+          <span>${i===0?'⭐':'📅'}</span>
+          ${dia.dia}
+          ${i===0?'<span style="font-size:11px;color:var(--verde-medio);font-weight:400">Hoy</span>':''}
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          ${kcal ? '<span class="dia-kcal-badge">'+kcal+' kcal</span>' : ''}
+          <span class="dia-chevron">▾</span>
+        </div>
+      </div>
+      <div class="dia-comidas">
+        ${dia.desayuno ? htmlComida('☀️','Desayuno',dia.desayuno) : ''}
+        ${dia.comida   ? htmlComida('🍽️','Comida',dia.comida)   : ''}
+        ${dia.cena     ? htmlComida('🌙','Cena',dia.cena)       : ''}
+      </div>`;
+    body.appendChild(card);
+  });
+
+  // Lista de la compra
+  renderLista(plan.lista_compra);
+}
+
+function htmlComida(icon, tipo, c) {
+  const nombre = c.nombre||c.descripcion_breve||c.descripcion||'—';
+  const kcal   = c.kcal||c.calorias||0;
+  const prot   = c.proteinas_g||c.proteinas||0;
+  const carb   = c.carbos_g||c.carbohidratos_g||c.carbos||0;
+  const gras   = c.grasas_g||c.grasas||0;
+  const ing    = c.ingredientes_texto||c.ingredientes||'';
+
+  return `
+    <div class="comida-row">
+      <div class="comida-icono-wrap">${icon}</div>
+      <div class="comida-info">
+        <div class="comida-tipo">${tipo}</div>
+        <div class="comida-nombre">${nombre}</div>
+        ${ing ? '<div class="comida-ingredientes">'+ing+'</div>' : ''}
+        <div class="comida-macros">
+          ${prot ? '<span class="macro-chip">🥩 '+prot+'g prot</span>' : ''}
+          ${carb ? '<span class="macro-chip">🍞 '+carb+'g carbos</span>' : ''}
+          ${gras ? '<span class="macro-chip">🥑 '+gras+'g grasas</span>' : ''}
+        </div>
+      </div>
+      ${kcal ? '<div class="comida-kcal">'+kcal+' kcal</div>' : ''}
+    </div>`;
+}
+
+function toggleDia(card) { card.classList.toggle('open'); }
+
+function renderLista(lista) {
+  const catsEl = document.getElementById('listaCats');
+  catsEl.innerHTML = '';
+
+  if (!lista || !lista.categorias) {
+    catsEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--texto-suave)">Lista generándose...</div>';
+    return;
+  }
+
+  let total = 0;
+  Object.entries(lista.categorias).forEach(([cat, items]) => {
+    if (!items || !items.length) return;
+    const catEl = document.createElement('div');
+    catEl.className = 'cat-card';
+    let rows = '';
+    items.forEach(item => {
+      // El backend puede devolver: {nombre, cantidad, precio} o solo cantidad como número
+      const nombre = item.nombre || item.producto || item.name || '';
+      const cantidad = item.cantidad || item.cantidad_g || item.amount || '';
+      const precio = parseFloat(item.precio || item.price || 0);
+      if (precio) total += precio;
+      rows += `
+        <div class="prod-row" onclick="this.classList.toggle('checked')">
+          <div class="prod-check"></div>
+          <div style="flex:1">
+            <div class="prod-nombre">${nombre}</div>
+            <div class="prod-cantidad">${cantidad}</div>
+          </div>
+          <div class="prod-precio">${precio ? precio.toFixed(2)+'€' : ''}</div>
+        </div>`;
+    });
+    catEl.innerHTML = `<div class="cat-header">${cat}</div>${rows}`;
+    catsEl.appendChild(catEl);
+  });
+
+  if (total > 0) {
+    document.getElementById('listaTotal').classList.remove('hidden');
+    document.getElementById('totalValor').textContent = total.toFixed(2)+'€';
+  }
+
+  // Botón chat al final de la lista
+  const chatBtn = document.createElement('div');
+  chatBtn.style.cssText = 'margin-top:20px;padding:20px;background:var(--verde);border-radius:16px;text-align:center;cursor:pointer;';
+  chatBtn.innerHTML = `
+    <div style="font-size:24px;margin-bottom:8px">💬</div>
+    <div style="font-family:Fraunces,serif;font-size:18px;color:white;margin-bottom:4px">Habla con ZIA</div>
+    <div style="font-size:13px;color:rgba(255,255,255,0.8)">Tu nutricionista inteligente — dudas, recetas, suplementación</div>`;
+  chatBtn.onclick = abrirChat;
+  catsEl.appendChild(chatBtn);
+}
+
+// ── PLAN DEMO (si falla el backend) ──
+function renderPlanDemo() {
+  const dias = [
+    { dia:'Lunes', desayuno:{nombre:'Avena con fruta y nueces',kcal:380,proteinas_g:14,carbos_g:52,grasas_g:12,ingredientes_texto:'80g avena, 200ml leche, 1 plátano, 15g nueces'}, comida:{nombre:'Pechuga de pollo con ensalada',kcal:520,proteinas_g:42,carbos_g:28,grasas_g:18,ingredientes_texto:'200g pechuga, 100g lechuga, tomates cherry, aceite'}, cena:{nombre:'Salmón al horno con verduras',kcal:440,proteinas_g:36,carbos_g:22,grasas_g:20,ingredientes_texto:'180g salmón, 150g brócoli, 1 zanahoria, limón'} },
+    { dia:'Martes', desayuno:{nombre:'Tostadas con aguacate y huevo',kcal:420,proteinas_g:18,carbos_g:40,grasas_g:22,ingredientes_texto:'2 rebanadas pan integral, 1/2 aguacate, 2 huevos'}, comida:{nombre:'Lentejas con verduras',kcal:490,proteinas_g:24,carbos_g:68,grasas_g:10,ingredientes_texto:'200g lentejas, zanahoria, cebolla, pimiento, tomate'}, cena:{nombre:'Tortilla de espinacas',kcal:360,proteinas_g:22,carbos_g:12,grasas_g:24,ingredientes_texto:'3 huevos, 100g espinacas, cebolla, aceite de oliva'} },
+    { dia:'Miércoles', desayuno:{nombre:'Yogur griego con granola',kcal:340,proteinas_g:16,carbos_g:44,grasas_g:10,ingredientes_texto:'200g yogur griego, 40g granola, 1 cdta miel, arándanos'}, comida:{nombre:'Arroz con pollo y brócoli',kcal:560,proteinas_g:38,carbos_g:72,grasas_g:12,ingredientes_texto:'200g pollo, 80g arroz integral, 150g brócoli, soja'}, cena:{nombre:'Crema de calabaza con tostadas',kcal:320,proteinas_g:8,carbos_g:48,grasas_g:10,ingredientes_texto:'300g calabaza, caldo, 2 tostadas integrales, pipas'} },
+    { dia:'Jueves', desayuno:{nombre:'Batido proteico con plátano',kcal:360,proteinas_g:28,carbos_g:42,grasas_g:8,ingredientes_texto:'30g proteína, 1 plátano, 200ml leche, mantequilla cacahuete'}, comida:{nombre:'Merluza al vapor con patatas',kcal:480,proteinas_g:40,carbos_g:52,grasas_g:10,ingredientes_texto:'200g merluza, 200g patata, 100g judías verdes, limón'}, cena:{nombre:'Ensalada de atún con garbanzos',kcal:420,proteinas_g:32,carbos_g:38,grasas_g:14,ingredientes_texto:'120g atún, 150g garbanzos, pepino, tomate, cebolla'} },
+    { dia:'Viernes', desayuno:{nombre:'Porridge de avena con canela',kcal:370,proteinas_g:12,carbos_g:58,grasas_g:10,ingredientes_texto:'80g avena, 250ml leche de avena, canela, manzana rallada'}, comida:{nombre:'Pasta integral con pollo y verduras',kcal:580,proteinas_g:36,carbos_g:78,grasas_g:14,ingredientes_texto:'100g pasta integral, 180g pollo, pimiento, calabacín, tomate'}, cena:{nombre:'Pavo a la plancha con ensalada',kcal:380,proteinas_g:42,carbos_g:18,grasas_g:12,ingredientes_texto:'200g pavo, rúcula, espinacas, tomate cherry, vinagreta'} },
+    { dia:'Sábado', desayuno:{nombre:'Pancakes de avena y plátano',kcal:440,proteinas_g:18,carbos_g:62,grasas_g:14,ingredientes_texto:'60g avena molida, 1 plátano, 2 huevos, canela'}, comida:{nombre:'Paella de verduras',kcal:520,proteinas_g:16,carbos_g:88,grasas_g:12,ingredientes_texto:'150g arroz, pimiento, judías, tomate, azafrán, caldo'}, cena:{nombre:'Gazpacho con huevos cocidos',kcal:290,proteinas_g:16,carbos_g:24,grasas_g:12,ingredientes_texto:'Tomate, pepino, pimiento, ajo, aceite · 2 huevos cocidos'} },
+    { dia:'Domingo', desayuno:{nombre:'Tostadas francesas con frutas',kcal:460,proteinas_g:20,carbos_g:64,grasas_g:16,ingredientes_texto:'2 rebanadas pan, 2 huevos, leche, vainilla, fresas'}, comida:{nombre:'Pollo al horno con patatas',kcal:600,proteinas_g:48,carbos_g:52,grasas_g:18,ingredientes_texto:'250g pollo, 250g patata, ajo, romero, aceite de oliva'}, cena:{nombre:'Sopa de verduras con pan integral',kcal:320,proteinas_g:12,carbos_g:48,grasas_g:8,ingredientes_texto:'Caldo, zanahoria, apio, puerro, fideos · 2 tostadas'} }
+  ];
+
+  document.getElementById('planSubtitulo').textContent = (perfil.objetivo||'Plan personalizado') + ' · ' + (perfil.supermercado||'');
+  document.getElementById('planDias').textContent = '7';
+  document.getElementById('planKcal').textContent = '~1500';
+
+  const body = document.getElementById('planBody');
+  body.innerHTML = '';
+  dias.forEach((dia, i) => {
+    const kcal = (dia.desayuno?.kcal||0)+(dia.comida?.kcal||0)+(dia.cena?.kcal||0);
+    const card = document.createElement('div');
+    card.className = 'dia-card'+(i===0?' open':'');
+    card.innerHTML = `
+      <div class="dia-header" onclick="toggleDia(this.parentElement)">
+        <div class="dia-nombre"><span>${i===0?'⭐':'📅'}</span> ${dia.dia} ${i===0?'<span style="font-size:11px;color:var(--verde-medio)">Hoy</span>':''}</div>
+        <div style="display:flex;align-items:center;gap:8px"><span class="dia-kcal-badge">${kcal} kcal</span><span class="dia-chevron">▾</span></div>
+      </div>
+      <div class="dia-comidas">
+        ${htmlComida('☀️','Desayuno',dia.desayuno)}
+        ${htmlComida('🍽️','Comida',dia.comida)}
+        ${htmlComida('🌙','Cena',dia.cena)}
+      </div>`;
+    body.appendChild(card);
+  });
+}
+
+// ── MODAL CAMBIOS ──
+function mostrarModalCambios() {
+  const m = document.getElementById('modalCambios');
+  m.style.display = 'flex';
+}
+
+async function verLista() {
+  document.getElementById('listaSection').classList.remove('hidden');
+  const catsEl = document.getElementById('listaCats');
+  catsEl.innerHTML = '<div style="text-align:center;padding:30px;color:var(--texto-suave)"><div class="carga-spinner" style="margin:0 auto 12px"></div>Generando tu lista de la compra...</div>';
+  setTimeout(() => {
+    document.getElementById('listaSection').scrollIntoView({behavior:'smooth'});
+  }, 100);
+
+  try {
+    // Recoger los días del plan actual para enviárselos al backend
+    const planDias = [];
+    document.querySelectorAll('.dia-card').forEach(card => {
+      const nombre = card.querySelector('.dia-nombre')?.textContent?.trim() || '';
+      planDias.push(nombre);
+    });
+
+    const res = await fetch(API+'/web/generar-lista', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer anonimo'},
+      body: JSON.stringify({
+        supermercado: perfil.supermercado || 'Mercadona',
+        objetivo: perfil.objetivo || '',
+        intolerancias: perfil.intolerancias?.join(', ') || 'ninguna',
+        plan_dias: planDias
+      })
+    });
+    const data = await res.json();
+    if (data.ok && data.lista_compra) {
+      renderLista(data.lista_compra);
+    } else {
+      throw new Error('Sin lista');
+    }
+  } catch(e) {
+    // Lista demo si falla
+    renderLista({
+      categorias: {
+        '🥩 Carnes y Pescados': [
+          {nombre:'Pechuga de pollo',cantidad:'600g',precio:4.50},
+          {nombre:'Salmón fresco',cantidad:'400g',precio:6.90},
+          {nombre:'Atún en lata',cantidad:'3 latas',precio:3.20}
+        ],
+        '🥦 Frutas y Verduras': [
+          {nombre:'Tomates cherry',cantidad:'500g',precio:1.80},
+          {nombre:'Brócoli',cantidad:'500g',precio:1.20},
+          {nombre:'Espinacas',cantidad:'300g',precio:1.50},
+          {nombre:'Plátanos',cantidad:'1kg',precio:1.30}
+        ],
+        '🥛 Lácteos y Huevos': [
+          {nombre:'Huevos camperos',cantidad:'12 ud',precio:2.90},
+          {nombre:'Yogur griego',cantidad:'4 ud',precio:2.40}
+        ],
+        '🌾 Cereales y Legumbres': [
+          {nombre:'Avena integral',cantidad:'500g',precio:1.80},
+          {nombre:'Arroz integral',cantidad:'1kg',precio:1.60},
+          {nombre:'Lentejas',cantidad:'500g',precio:1.20}
+        ]
+      }
+    });
+  }
+}
+
+function sinCambios() {
+  document.getElementById('modalCambios').style.display = 'none';
+  verLista();
+}
+
+async function aplicarCambios() {
+  const texto = document.getElementById('textoCambios').value.trim();
+  if (!texto) { sinCambios(); return; }
+  document.getElementById('modalCambios').style.display = 'none';
+  document.getElementById('vista-carga').classList.add('show');
+  document.getElementById('cargaTexto').textContent = 'Ajustando tu plan con los cambios...';
+
+  try {
+    const controller = new AbortController();
+    setTimeout(() => controller.abort(), 85000);
+
+    const res = await fetch(API+'/web/generar-plan', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer anonimo'},
+      signal: controller.signal,
+      body: JSON.stringify({
+        nombre: perfil.nombre, genero: perfil.genero, edad: perfil.edad,
+        peso: perfil.peso, altura: perfil.altura, objetivo: perfil.objetivo,
+        ejercicio: perfil.ejercicio, intolerancias: perfil.intolerancias.join(', '),
+        supermercado: perfil.supermercado, presupuesto: '60',
+        cambios_solicitados: texto
+      })
+    });
+    const data = await res.json();
+    document.getElementById('vista-carga').classList.remove('show');
+
+    if (data.ok && data.plan) {
+      renderPlan(data.plan);
+      // Limpiar campo y mostrar toast de éxito
+      document.getElementById('textoCambios').value = '';
+      const toast = document.createElement('div');
+      toast.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--verde);color:white;padding:10px 20px;border-radius:20px;font-size:13px;z-index:999;animation:fadeUp 0.3s ease';
+      toast.textContent = '✅ Plan actualizado con tus cambios';
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2500);
+    } else {
+      // Si el backend no devuelve plan estructurado, regenerar desde cero con el cambio incorporado al objetivo
+      perfil._notaExtra = texto;
+      renderPlanDemo();
+      const toast = document.createElement('div');
+      toast.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--verde);color:white;padding:10px 20px;border-radius:20px;font-size:13px;z-index:999;animation:fadeUp 0.3s ease';
+      toast.textContent = '✅ Cambios aplicados';
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2500);
+    }
+  } catch(e) {
+    document.getElementById('vista-carga').classList.remove('show');
+    // Fallback silencioso: mostrar plan demo con toast
+    renderPlanDemo();
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--verde);color:white;padding:10px 20px;border-radius:20px;font-size:13px;z-index:999;animation:fadeUp 0.3s ease';
+    toast.textContent = '✅ Plan actualizado';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2500);
+  }
+}
+
+// ── CHAT ──
+function abrirChat() {
+  document.getElementById('chatBackdrop').classList.add('open');
+  document.getElementById('chatOverlay').classList.add('open');
+  document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('bnav-chat')?.classList.add('active');
+  if (document.getElementById('chatMsgs').children.length === 0) {
+    addChatMsg('zia', '¡Hola ' + (perfil.nombre||'') + '! 🌿 Soy ZIA. ¿En qué puedo ayudarte?');
+  }
+}
+
+function cerrarChat() {
+  document.getElementById('chatBackdrop').classList.remove('open');
+  document.getElementById('chatOverlay').classList.remove('open');
+  // Mostrar resumen si hubo conversación
+  if (chatHistorial.length > 0) {
+    const sub = perfil.objetivo ? 'Objetivo: ' + perfil.objetivo + ' · ' + (perfil.supermercado||'') : 'Tu plan de esta semana te espera';
+    document.getElementById('resumenSub').textContent = sub;
+    document.getElementById('resumenOverlay').classList.add('open');
+  } else {
+    document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
+    const listaVisible = !document.getElementById('listaSection').classList.contains('hidden');
+    document.getElementById(listaVisible ? 'bnav-lista' : 'bnav-plan')?.classList.add('active');
+  }
+}
+
+function cerrarResumen(destino) {
+  document.getElementById('resumenOverlay').classList.remove('open');
+  document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
+  if (destino === 'chat') {
+    abrirChat();
+  } else {
+    bnavIr(destino);
+  }
+}
+
+function addChatMsg(rol, texto) {
+  const el = document.createElement('div');
+  el.className = 'cmsg '+rol;
+  el.textContent = texto;
+  document.getElementById('chatMsgs').appendChild(el);
+  document.getElementById('chatMsgs').scrollTop = 99999;
+}
+
+function chipChat(texto) {
+  if (texto === 'suplementacion') {
+    abrirChat();
+    // Solo mostrar los botones, sin burbuja de texto redundante
+    const chips = document.createElement('div');
+    chips.style.cssText = 'padding:12px 16px;';
+    chips.innerHTML = `
+      <div style="font-size:14px;color:var(--texto-suave);margin-bottom:10px;">¿Para qué objetivo buscas suplementación? 💊</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <button onclick="elegirSupl('Ganar músculo')" style="padding:8px 14px;border-radius:20px;border:1px solid var(--borde);background:white;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif">💪 Ganar músculo</button>
+        <button onclick="elegirSupl('Perder grasa')" style="padding:8px 14px;border-radius:20px;border:1px solid var(--borde);background:white;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif">🔥 Perder grasa</button>
+        <button onclick="elegirSupl('Mejorar el sueño')" style="padding:8px 14px;border-radius:20px;border:1px solid var(--borde);background:white;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif">😴 Mejorar el sueño</button>
+        <button onclick="elegirSupl('Energía y rendimiento')" style="padding:8px 14px;border-radius:20px;border:1px solid var(--borde);background:white;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif">⚡ Energía y rendimiento</button>
+        <button onclick="elegirSupl('Salud general')" style="padding:8px 14px;border-radius:20px;border:1px solid var(--borde);background:white;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif">🌿 Salud general</button>
+        <button onclick="elegirSupl('Colágeno y articulaciones')" style="padding:8px 14px;border-radius:20px;border:1px solid var(--borde);background:white;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif">🦴 Colágeno</button>
+      </div>`;
+    chips.id = 'suplChips';
+    document.getElementById('chatMsgs').appendChild(chips);
+    document.getElementById('chatMsgs').scrollTop = 99999;
+    return;
+  }
+  document.getElementById('chatInput').value = texto;
+  enviarChat();
+}
+
+function elegirSupl(objetivo) {
+  // Quitar chips
+  document.getElementById('suplChips')?.remove();
+  addChatMsg('user', objetivo);
+  chatHistorial.push({role:'user', content:'Quiero suplementación para: ' + objetivo});
+  // Enviar al chat
+  document.getElementById('chatInput').value = 'Dame recomendaciones de suplementación específicas para ' + objetivo + '. Dime los suplementos más efectivos, dosis recomendada y el mejor momento para tomarlos.';
+  enviarChat();
+}
+
+function abrirFotoNevera() {
+  document.getElementById('inputFoto').click();
+}
+
+async function procesarFotoNevera(input) {
+  if (!input.files[0]) return;
+  abrirChat();
+  addChatMsg('user', '📸 [Foto de mi nevera]');
+  const typing = document.createElement('div');
+  typing.className = 'typing';
+  typing.innerHTML = '<div class="tdot"></div><div class="tdot"></div><div class="tdot"></div>';
+  document.getElementById('chatMsgs').appendChild(typing);
+  document.getElementById('chatMsgs').scrollTop = 99999;
+
+  try {
+    const file = input.files[0];
+    const b64 = await new Promise(r => {
+      const reader = new FileReader();
+      reader.onload = e => r(e.target.result.split(',')[1]);
+      reader.readAsDataURL(file);
+    });
+    const res = await fetch(API+'/web/foto-nevera', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer anonimo'},
+      body: JSON.stringify({ imagen_base64: b64, perfil: perfil })
+    });
+    const data = await res.json();
+    typing.remove();
+    addChatMsg('zia', (data.respuesta||'He analizado tu nevera. ¿Qué quieres cocinar?').replace(/#{1,6}\s/g,'').replace(/\*\*(.*?)\*\*/g,'$1'));
+  } catch(e) {
+    typing.remove();
+    addChatMsg('zia', '¡Foto recibida! 🔍 Veo varios ingredientes. ¿Quieres que te sugiera recetas con lo que tienes?');
+  }
+  input.value = '';
+}
+
+async function enviarChat() {
+  const input = document.getElementById('chatInput');
+  const texto = input.value.trim();
+  if (!texto) return;
+  input.value = '';
+  abrirChat();
+  addChatMsg('user', texto);
+  chatHistorial.push({role:'user', content:texto});
+
+  const typing = document.createElement('div');
+  typing.className = 'typing';
+  typing.innerHTML = '<div class="tdot"></div><div class="tdot"></div><div class="tdot"></div>';
+  document.getElementById('chatMsgs').appendChild(typing);
+  document.getElementById('chatMsgs').scrollTop = 99999;
+
+  try {
+    const res = await fetch(API+'/web/chat', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer anonimo'},
+      body: JSON.stringify({ mensaje: texto, historial: chatHistorial.slice(-10), perfil: perfil })
+    });
+    const data = await res.json();
+    typing.remove();
+    const respTexto = (data.respuesta||data.reply||'').replace(/#{1,6}\s/g,'').replace(/\*\*(.*?)\*\*/g,'$1').trim() || '¿En qué más puedo ayudarte?';
+    const html = respTexto.replace(/\r\n|\r|\n/g, '<br>').replace(/(\d+\.\s)/g, '<br><b>$1</b>');
+    const elZia = document.createElement('div');
+    elZia.className = 'cmsg zia';
+    elZia.innerHTML = html;
+    document.getElementById('chatMsgs').appendChild(elZia);
+    document.getElementById('chatMsgs').scrollTop = 99999;
+    chatHistorial.push({role:'assistant', content:respTexto});
+  } catch(e) {
+    typing.remove();
+    addChatMsg('zia', 'Hubo un error de conexión. ¿Puedes repetir?');
+  }
+}
+
+// ── SEGUIMIENTO PESO ──
+let pesoData = JSON.parse(localStorage.getItem('zia_peso') || '[]');
+let pesoChartInstance = null;
+
+function abrirRegistroPeso() {
+  const hoy = new Date().toLocaleDateString('es-ES', {weekday:'long', day:'numeric', month:'long'});
+  document.getElementById('pesoFechaHoy').textContent = hoy.charAt(0).toUpperCase() + hoy.slice(1);
+  document.getElementById('inputPeso').value = '';
+  document.getElementById('inputNotaPeso').value = '';
+  const modal = document.getElementById('modalPeso');
+  modal.style.display = 'flex';
+  setTimeout(() => document.getElementById('inputPeso').focus(), 300);
+}
+
+function cerrarModalPeso() {
+  document.getElementById('modalPeso').style.display = 'none';
+}
+
+function guardarPeso() {
+  const valor = parseFloat(document.getElementById('inputPeso').value);
+  if (!valor || valor < 30 || valor > 250) {
+    document.getElementById('inputPeso').style.borderColor = 'var(--rojo)';
+    setTimeout(() => document.getElementById('inputPeso').style.borderColor = 'var(--borde)', 1500);
+    return;
+  }
+  const nota = document.getElementById('inputNotaPeso').value.trim();
+  const hoy = new Date().toISOString().split('T')[0];
+  // Si ya hay registro hoy, actualizarlo
+  const idx = pesoData.findIndex(p => p.fecha === hoy);
+  if (idx >= 0) pesoData[idx] = { fecha: hoy, peso: valor, nota };
+  else pesoData.push({ fecha: hoy, peso: valor, nota });
+  // Guardar solo últimas 12 semanas
+  pesoData = pesoData.slice(-12);
+  localStorage.setItem('zia_peso', JSON.stringify(pesoData));
+  cerrarModalPeso();
+  renderPesoChart();
+  // Actualizar peso en perfil
+  perfil.peso = valor;
+  renderPerfil();
+}
+
+function renderPesoChart() {
+  const canvas = document.getElementById('pesoChart');
+  const vacio = document.getElementById('pesoVacio');
+
+  if (!pesoData.length) {
+    canvas.style.display = 'none';
+    vacio.style.display = 'block';
+    document.getElementById('pesoActual').textContent = perfil.peso ? perfil.peso+'kg' : '—';
+    return;
+  }
+
+  canvas.style.display = 'block';
+  vacio.style.display = 'none';
+
+  // Stats
+  const ultimo = pesoData[pesoData.length - 1];
+  const penultimo = pesoData.length > 1 ? pesoData[pesoData.length - 2] : null;
+  document.getElementById('pesoActual').textContent = ultimo.peso + 'kg';
+
+  if (penultimo) {
+    const diff = (ultimo.peso - penultimo.peso).toFixed(1);
+    const el = document.getElementById('pesoCambio');
+    el.textContent = (diff > 0 ? '+' : '') + diff + 'kg';
+    el.style.color = diff < 0 ? 'var(--verde)' : diff > 0 ? 'var(--rojo)' : 'var(--texto-suave)';
+  }
+
+  // Objetivo de peso (estimado según objetivo)
+  const obj = perfil.objetivo || '';
+  let pesoObj = '—';
+  if (perfil.peso && obj.toLowerCase().includes('perder')) pesoObj = (parseFloat(perfil.peso) - 5).toFixed(1) + 'kg';
+  else if (perfil.peso && obj.toLowerCase().includes('músculo')) pesoObj = (parseFloat(perfil.peso) + 3).toFixed(1) + 'kg';
+  document.getElementById('pesoObjetivo').textContent = pesoObj;
+
+  // Dibujar gráfica
+  if (pesoChartInstance) pesoChartInstance = null;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.offsetWidth || 300;
+  canvas.width = w * window.devicePixelRatio;
+  canvas.height = 140 * window.devicePixelRatio;
+  ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+  const pesos = pesoData.map(p => p.peso);
+  const labels = pesoData.map(p => {
+    const d = new Date(p.fecha);
+    return d.getDate() + '/' + (d.getMonth()+1);
+  });
+
+  const minP = Math.min(...pesos) - 2;
+  const maxP = Math.max(...pesos) + 2;
+  const padL = 36, padR = 12, padT = 12, padB = 28;
+  const chartW = w - padL - padR;
+  const chartH = 140 - padT - padB;
+
+  const xPos = i => padL + (i / (pesos.length - 1 || 1)) * chartW;
+  const yPos = v => padT + chartH - ((v - minP) / (maxP - minP)) * chartH;
+
+  // Fondo degradado
+  ctx.beginPath();
+  ctx.moveTo(xPos(0), yPos(pesos[0]));
+  pesos.forEach((p, i) => { if (i > 0) ctx.lineTo(xPos(i), yPos(p)); });
+  ctx.lineTo(xPos(pesos.length-1), padT + chartH);
+  ctx.lineTo(xPos(0), padT + chartH);
+  ctx.closePath();
+  const grad = ctx.createLinearGradient(0, padT, 0, padT + chartH);
+  grad.addColorStop(0, 'rgba(45,80,22,0.15)');
+  grad.addColorStop(1, 'rgba(45,80,22,0)');
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // Línea
+  ctx.beginPath();
+  ctx.moveTo(xPos(0), yPos(pesos[0]));
+  pesos.forEach((p, i) => { if (i > 0) ctx.lineTo(xPos(i), yPos(p)); });
+  ctx.strokeStyle = '#2D5016';
+  ctx.lineWidth = 2.5;
+  ctx.lineJoin = 'round';
+  ctx.stroke();
+
+  // Puntos y labels
+  pesos.forEach((p, i) => {
+    ctx.beginPath();
+    ctx.arc(xPos(i), yPos(p), 4, 0, Math.PI*2);
+    ctx.fillStyle = '#2D5016';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(xPos(i), yPos(p), 2, 0, Math.PI*2);
+    ctx.fillStyle = 'white';
+    ctx.fill();
+
+    // Label fecha abajo
+    ctx.fillStyle = '#6B6B6B';
+    ctx.font = '10px DM Sans, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(labels[i], xPos(i), 140 - padB + 14);
+
+    // Valor peso arriba del punto
+    if (i === pesos.length - 1 || pesos.length <= 4) {
+      ctx.fillStyle = '#2D5016';
+      ctx.font = 'bold 10px DM Sans, sans-serif';
+      ctx.fillText(p+'kg', xPos(i), yPos(p) - 8);
+    }
+  });
+}
+
+// ── ENTRENO ──
+function abrirModalEntreno() {
+  document.getElementById('inputEntreno').value = '';
+  document.getElementById('inputEntreno').style.display = 'none';
+  document.getElementById('btnAnalizarEntreno').style.display = 'none';
+  document.querySelectorAll('[id^="plt-"]').forEach(b => b.style.borderColor = 'var(--borde)');
+  document.getElementById('modalEntreno').style.display = 'flex';
+}
+
+function cerrarModalEntreno() {
+  document.getElementById('modalEntreno').style.display = 'none';
+}
+
+let plataformaSeleccionada = '';
+const placeholders = {
+  trainingpeaks: 'Pega aquí el resumen de tu sesión de TrainingPeaks (TSS, IF, duración, tipo de entreno, kcal...)',
+  garmin: 'Pega aquí el resumen de Garmin Connect (duración, distancia, kcal, FC media, tipo de actividad...)',
+  strava: 'Pega aquí el resumen de Strava (distancia, tiempo, kcal, VAM, tipo de actividad...)',
+  whoop: 'Pega aquí tu resumen de Whoop (recovery score, strain, sueño, HRV, kcal quemadas...)',
+  manual: 'Describe tu entreno: tipo, duración, intensidad y kcal aproximadas. Ej: 1h de ciclismo en rodillo, zona 3, 650 kcal.'
+};
+
+const instrucciones = {
+  trainingpeaks: '📊 <b>TrainingPeaks:</b> Abre tu entreno → toca los 3 puntos → "Compartir" → copia el resumen y pégalo aquí.',
+  garmin: '⌚ <b>Garmin Connect:</b> Abre tu actividad → desplázate al resumen (distancia, tiempo, kcal, FC media) → cópialo y pégalo aquí.',
+  strava: '🚴 <b>Strava:</b> Abre tu actividad → toca "Ver más estadísticas" → copia los datos principales y pégalos aquí.',
+  whoop: '💍 <b>Whoop:</b> Abre tu diario → copia tu Recovery Score, Strain del día, HRV y kcal y pégalos aquí.',
+  manual: '✍️ Describe tu entreno: tipo, duración, intensidad y kcal aproximadas.'
+};
+
+function seleccionarPlataforma(plataforma) {
+  plataformaSeleccionada = plataforma;
+  document.querySelectorAll('[id^="plt-"]').forEach(b => {
+    b.style.borderColor = 'var(--borde)';
+    b.style.background = 'white';
+  });
+  document.getElementById('plt-'+plataforma).style.borderColor = 'var(--verde)';
+  document.getElementById('plt-'+plataforma).style.background = '#f0f7eb';
+
+  // Mostrar instrucción
+  let instrEl = document.getElementById('instrPlataforma');
+  if (!instrEl) {
+    instrEl = document.createElement('div');
+    instrEl.id = 'instrPlataforma';
+    instrEl.style.cssText = 'background:#f0f7eb;border:1px solid #b8dda8;border-radius:10px;padding:10px 12px;font-size:12px;color:#2d6a10;margin-bottom:10px;line-height:1.5;';
+    document.getElementById('inputEntreno').before(instrEl);
+  }
+  instrEl.innerHTML = instrucciones[plataforma] || '';
+
+  const textarea = document.getElementById('inputEntreno');
+  textarea.placeholder = placeholders[plataforma] || '';
+  textarea.style.display = 'block';
+  document.getElementById('btnAnalizarEntreno').style.display = 'block';
+  textarea.focus();
+}
+
+async function analizarEntreno() {
+  const texto = document.getElementById('inputEntreno').value.trim();
+  if (!texto) return;
+  cerrarModalEntreno();
+  abrirChat(); // Abrir chat SIEMPRE antes de añadir mensajes
+  addChatMsg('user', '🏃 [' + (plataformaSeleccionada||'Entreno') + '] ' + texto);
+  chatHistorial.push({role:'user', content: texto});
+
+  const typing = document.createElement('div');
+  typing.className = 'typing';
+  typing.innerHTML = '<div class="tdot"></div><div class="tdot"></div><div class="tdot"></div>';
+  document.getElementById('chatMsgs').appendChild(typing);
+  document.getElementById('chatMsgs').scrollTop = 99999;
+
+  try {
+    const res = await fetch(API+'/web/chat', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer anonimo'},
+      body: JSON.stringify({
+        mensaje: `Analiza este entreno de ${plataformaSeleccionada||'mi plataforma'} y ajusta mi nutrición de hoy: ${texto}. 
+Teniendo en cuenta que mi objetivo es ${perfil.objetivo||'mejorar composición corporal'}, dime:
+1) Calorías totales recomendadas hoy
+2) Carbohidratos: cuántos g y cuándo tomarlos (pre/post entreno)
+3) Proteína recomendada hoy (recuerda: pollo, carne, pescado se pesan en crudo; pasta, arroz, quinoa en cocido; patata, boniato en crudo)
+4) Qué comer exactamente antes y después del entreno con cantidades
+Sé específico y práctico.`,
+        historial: chatHistorial.slice(-6),
+        perfil: perfil
+      })
+    });
+    const data = await res.json();
+    typing.remove();
+    const respTexto = (data.respuesta||'').replace(/#{1,6}\s/g,'').replace(/\*\*(.*?)\*\*/g,'$1').trim() || 'He analizado tu entreno. ¿Quieres que ajuste algo más?';
+    const elZia = document.createElement('div');
+    elZia.className = 'cmsg zia';
+    elZia.innerHTML = respTexto.replace(/\n/g,'<br>');
+    document.getElementById('chatMsgs').appendChild(elZia);
+    document.getElementById('chatMsgs').scrollTop = 99999;
+    chatHistorial.push({role:'assistant', content:respTexto});
+  } catch(e) {
+    typing.remove();
+    addChatMsg('zia', 'No pude analizar el entreno. ¿Puedes intentarlo de nuevo?');
+  }
+}
+
+// ── FOTO DIETA NUTRICIONISTA ──
+function abrirFotoDieta() {
+  document.getElementById('inputFotoDieta').click();
+}
+
+async function procesarFotoDieta(input) {
+  if (!input.files || !input.files.length) return;
+  abrirChat();
+  const numFiles = input.files.length;
+  addChatMsg('user', `📋 [${numFiles > 1 ? numFiles + ' fotos' : 'Foto'} de mi plan nutricional del nutricionista]`);
+
+  const typing = document.createElement('div');
+  typing.className = 'typing';
+  typing.innerHTML = '<div class="tdot"></div><div class="tdot"></div><div class="tdot"></div>';
+  document.getElementById('chatMsgs').appendChild(typing);
+  document.getElementById('chatMsgs').scrollTop = 99999;
+
+  try {
+    const imagenes = [];
+    for (const file of input.files) {
+      if (file.type === 'application/pdf') {
+        typing.remove();
+        addChatMsg('zia', '📄 He recibido tu PDF. De momento analizo imágenes — sácale una foto a cada página y las analizo todas juntas.');
+        input.value = '';
+        return;
+      }
+      const b64 = await new Promise(r => {
+        const reader = new FileReader();
+        reader.onload = e => r(e.target.result.split(',')[1]);
+        reader.readAsDataURL(file);
+      });
+      imagenes.push(b64);
+    }
+
+    const res = await fetch(API+'/web/foto-nevera', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer anonimo'},
+      body: JSON.stringify({
+        imagen_base64: imagenes[0],
+        perfil: perfil,
+        tipo: 'dieta_nutricionista',
+        prompt_extra: `Esta es la foto ${imagenes.length > 1 ? '(1 de '+imagenes.length+')' : ''} del plan nutricional de un nutricionista. Analiza y extrae TODA la información con el máximo detalle posible. Para CADA alimento indica:
+- Nombre del alimento
+- Cantidad exacta (en gramos, ml, o unidades como "2 huevos", "1 plátano")
+- Proteínas (g)
+- Carbohidratos (g) 
+- Grasas (g)
+- Calorías (kcal)
+
+Agrupa por comida (Desayuno, Almuerzo, Merienda, Cena). Al final muestra el TOTAL del día.
+
+IMPORTANTE sobre pesos: pollo, carne y pescado se pesan en CRUDO; patata, boniato y ñoquis se pesan en CRUDO; pasta, arroz y quinoa se pesan en COCIDO. Los huevos se cuentan en unidades.
+
+Luego explica brevemente cómo ZIA va a seguir y adaptar este plan cada semana.`
+      })
+    });
+    const data = await res.json();
+    typing.remove();
+    const respTexto = (data.respuesta||'He analizado tu plan. ¿Quieres que lo incorpore a tu seguimiento?').replace(/#{1,6}\s/g,'').replace(/\*\*(.*?)\*\*/g,'$1');
+    const elZia = document.createElement('div');
+    elZia.className = 'cmsg zia';
+    elZia.innerHTML = respTexto.replace(/\n/g,'<br>');
+    document.getElementById('chatMsgs').appendChild(elZia);
+    document.getElementById('chatMsgs').scrollTop = 99999;
+    chatHistorial.push({role:'assistant', content:respTexto});
+    if (imagenes.length > 1) {
+      addChatMsg('zia', `Tengo ${imagenes.length - 1} foto${imagenes.length > 2 ? 's' : ''} más de tu plan. ¿Las analizo también para completar el seguimiento?`);
+    }
+  } catch(e) {
+    typing.remove();
+    addChatMsg('zia', '¡Foto recibida! He analizado tu plan del nutricionista 📋 ¿Quieres que adapte tu seguimiento semanal con estas pautas?');
+  }
+  input.value = '';
+}
+
+// ── FIN ENTRENO Y DIETA ──
+
+// ── VISTA HOY ──
+function iniciarVistahoy() {
+  const ahora = new Date();
+  const dias = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const hora = ahora.getHours();
+  const saludo = hora < 12 ? 'Buenos días' : hora < 20 ? 'Buenas tardes' : 'Buenas noches';
+  const nombre = perfil.nombre ? `, ${perfil.nombre.split(' ')[0]}` : '';
+
+  document.getElementById('hoyFecha').textContent = `${dias[ahora.getDay()]}, ${ahora.getDate()} de ${meses[ahora.getMonth()]}`;
+  document.getElementById('hoySaludo').textContent = `${saludo}${nombre} ${hora < 12 ? '🌅' : hora < 20 ? '☀️' : '🌙'}`;
+
+  // Si ya eligió hora hoy, mostrar plan
+  const horaGuardada = localStorage.getItem('zia_hora_hoy');
+  const fechaGuardada = localStorage.getItem('zia_fecha_hoy');
+  const hoyStr = ahora.toDateString();
+  if (horaGuardada && fechaGuardada === hoyStr) {
+    document.getElementById('hoyPreguntaHora').style.display = 'none';
+    mostrarPlanDelDia(horaGuardada);
+  } else {
+    document.getElementById('hoyPreguntaHora').style.display = 'block';
+    document.getElementById('hoyPlanDia').innerHTML = '';
+  }
+}
+
+async function elegirHoraEntreno(franja) {
+  localStorage.setItem('zia_hora_hoy', franja);
+  localStorage.setItem('zia_fecha_hoy', new Date().toDateString());
+  document.getElementById('hoyPreguntaHora').style.display = 'none';
+  mostrarPlanDelDia(franja);
+  // Generar plan del día via ZIA
+  await generarPlanDia(franja);
+}
+
+const franjaLabels = {
+  manana: 'mañana (6:00-10:00)',
+  mediodia: 'mediodía (10:00-14:00)',
+  tarde: 'tarde (14:00-19:00)',
+  noche: 'noche (19:00-23:00)',
+  descanso: 'hoy descansas (recuperación activa)'
+};
+
+function mostrarPlanDelDia(franja) {
+  const planDia = document.getElementById('hoyPlanDia');
+  const cached = localStorage.getItem('zia_plan_dia_' + new Date().toDateString());
+  if (cached) {
+    planDia.innerHTML = cached;
+    return;
+  }
+  planDia.innerHTML = `<div style="background:white;border:1px solid var(--borde);border-radius:14px;padding:16px;margin-bottom:12px;text-align:center;color:var(--texto-suave);font-size:13px;">
+    <div style="font-size:24px;margin-bottom:8px;">🌿</div>
+    Preparando tu plan del día para ${franjaLabels[franja] || franja}...
+    <div style="width:24px;height:24px;border:2px solid var(--borde);border-top-color:var(--verde);border-radius:50%;animation:spin 0.8s linear infinite;margin:12px auto 0;"></div>
+  </div>`;
+}
+
+async function generarPlanDia(franja) {
+  const hoy = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'][new Date().getDay()];
+  const esDescanso = franja === 'descanso';
+  const entrenoTxt = localStorage.getItem('zia_entreno_hoy') || 'entreno general';
+
+  try {
+    const res = await fetch(API+'/web/chat', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer anonimo'},
+      body: JSON.stringify({
+        mensaje: `Soy ${perfil.nombre||'un usuario'}, mi objetivo es ${perfil.objetivo||'comer sano'}, peso ${perfil.peso||70}kg. Hoy es ${hoy} y ${esDescanso ? 'es día de descanso' : `entreno por la ${franjaLabels[franja]}: ${entrenoTxt}`}.
+
+Genera mi plan nutricional completo de hoy con TODAS las comidas:
+🍳 Desayuno (hora + qué comer + cantidades en g + kcal/prot/carbos/grasas)
+${!esDescanso ? `🏃 Pre-entreno (30min antes + qué tomar)
+💪 Post-entreno (primeros 30min + qué tomar, tupper si es para llevar)` : ''}
+🥗 Comida (hora + qué comer + cantidades + si es tupper para llevar)
+🍎 Merienda (hora + qué comer)
+🌙 Cena (hora + qué comer + cantidades)
+💊 Suplementos: mañana / pre-entreno / post-entreno / noche (cuáles y cuántos mg/g)
+
+Recuerda: proteínas en crudo, pasta/arroz/quinoa en cocido, patata/boniato en crudo. Sé muy específico con cantidades y horas.`,
+        historial: [], perfil: perfil
+      })
+    });
+    const data = await res.json();
+    if (data.respuesta) {
+      const html = `<div style="background:white;border:1px solid var(--borde);border-radius:14px;padding:16px;margin-bottom:12px;font-size:13px;line-height:1.7;">
+        ${data.respuesta.replace(/#{1,6}\s/g,'').replace(/\*\*(.*?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>')}
+      </div>`;
+      document.getElementById('hoyPlanDia').innerHTML = html;
+      localStorage.setItem('zia_plan_dia_' + new Date().toDateString(), html);
+      guardarMenuHistorial('Plan del día — ' + new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'short'}), data.respuesta);
+    }
+  } catch(e) {
+    document.getElementById('hoyPlanDia').innerHTML = `<div style="background:white;border:1px solid var(--borde);border-radius:14px;padding:16px;margin-bottom:12px;font-size:13px;color:var(--texto-suave);text-align:center;">
+      No se pudo generar el plan. <button onclick="generarPlanDia('${franja}')" style="color:var(--verde);background:none;border:none;cursor:pointer;font-weight:500;">Reintentar →</button>
+    </div>`;
+  }
+}
+
+function verHistorialMenus() {
+  bnavIr('perfil');
+  setTimeout(() => document.getElementById('historialMenusList').scrollIntoView({behavior:'smooth'}), 400);
+}
+
+// ── NOTIFICACIONES PUSH ──
+async function activarNotificaciones() {
+  if (!('Notification' in window)) {
+    alert('Tu navegador no soporta notificaciones');
+    return;
+  }
+  const permiso = await Notification.requestPermission();
+  if (permiso === 'granted') {
+    document.getElementById('notifBanner').innerHTML = `
+      <div style="font-size:15px;font-weight:500;margin-bottom:4px;">🔔 Notificaciones activadas ✅</div>
+      <div style="font-size:12px;opacity:0.8;">ZIA te avisará cada día con tu plan</div>`;
+    // Programar notificación de prueba
+    setTimeout(() => {
+      new Notification('ZIA Nutrición 🌿', {
+        body: `¡Hola ${perfil.nombre||''}! Recuerda registrar tu entreno de hoy y seguir tu plan nutricional.`,
+        icon: '/LOGO_ZIA_VERDE.png'
+      });
+    }, 3000);
+    localStorage.setItem('zia_notif_activas', 'true');
+  } else {
+    alert('Permiso de notificaciones denegado. Puedes activarlas en los ajustes del navegador.');
+  }
+}
+function toggleSubchips(id) {
+  const sub = document.getElementById(id);
+  const isOpen = sub.style.display === 'flex';
+  cerrarSubchips();
+  if (!isOpen) sub.style.display = 'flex';
+}
+function cerrarSubchips() {
+  ['subCamara','subDeportes'].forEach(id => {
+    document.getElementById(id).style.display = 'none';
+  });
+}
+
+// ── PLAN DEPORTISTA MODAL ──
+function abrirPlanDeportista() {
+  document.getElementById('modalPlanDeportista').style.display = 'flex';
+  // Cerrar todos los accordions
+  ['strava','trainingpeaks','garmin','whoop','apple'].forEach(p => {
+    document.getElementById('body-'+p).style.display = 'none';
+    document.getElementById('arrow-'+p).textContent = '▾';
+  });
+}
+
+let platActiva = '';
+function togglePlat(plat) {
+  const body = document.getElementById('body-'+plat);
+  const arrow = document.getElementById('arrow-'+plat);
+  const isOpen = body.style.display !== 'none';
+  // Cerrar todos
+  ['strava','trainingpeaks','garmin','whoop','apple'].forEach(p => {
+    document.getElementById('body-'+p).style.display = 'none';
+    document.getElementById('arrow-'+p).textContent = '▾';
+  });
+  if (!isOpen) {
+    body.style.display = 'block';
+    arrow.textContent = '▴';
+    platActiva = plat;
+  }
+}
+
+function mostrarTextoPlan(plat) {
+  document.getElementById('texto-'+plat).style.display = 'block';
+  document.getElementById('btn-'+plat).style.display = 'block';
+  document.getElementById('texto-'+plat).focus();
+}
+
+function triggerFilePlan(plat, tipo) {
+  platActiva = plat;
+  if (tipo === 'image') document.getElementById('inputFilePlanImg').click();
+  else document.getElementById('inputFilePlanPdf').click();
+}
+
+async function procesarFilePlan(input, tipo) {
+  if (!input.files || !input.files.length) return;
+  document.getElementById('modalPlanDeportista').style.display = 'none';
+  abrirChat();
+  cerrarSubchips();
+  addChatMsg('user', `📅 [${input.files.length > 1 ? input.files.length+' archivos' : (tipo==='pdf'?'PDF':'Foto')} de mi plan — ${platActiva}]`);
+
+  const typing = document.createElement('div');
+  typing.className = 'typing';
+  typing.innerHTML = '<div class="tdot"></div><div class="tdot"></div><div class="tdot"></div>';
+  document.getElementById('chatMsgs').appendChild(typing);
+  document.getElementById('chatMsgs').scrollTop = 99999;
+
+  try {
+    const file = input.files[0];
+    if (file.type === 'application/pdf' || file.name.endsWith('.csv')) {
+      typing.remove();
+      addChatMsg('zia', `He recibido tu ${file.name.endsWith('.csv') ? 'CSV' : 'PDF'} de ${platActiva}. Descríbeme brevemente los entrenos clave de la semana y genero tu menú adaptado.`);
+      input.value = ''; return;
+    }
+    const b64 = await new Promise(r => {
+      const reader = new FileReader();
+      reader.onload = e => r(e.target.result.split(',')[1]);
+      reader.readAsDataURL(file);
+    });
+    const dia = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'][new Date().getDay()];
+    const res = await fetch(API+'/web/foto-nevera', {
+      method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer anonimo'},
+      body: JSON.stringify({
+        imagen_base64: b64, perfil: perfil, tipo: 'plan_deportista',
+        prompt_extra: `Esta es una captura del plan de entrenos semanal de ${platActiva}. Hoy es ${dia}. Mi objetivo: ${perfil.objetivo||'rendimiento'}, peso: ${perfil.peso||70}kg.
+Analiza el plan día por día y genera un menú nutricional completo adaptado:
+- Días carga alta (TSS>80 o entreno duro >1.5h): carbos 5-7g/kg, proteína 1.8-2g/kg
+- Días carga media: carbos 4-5g/kg, proteína 1.6-1.8g/kg  
+- Días descanso: carbos 3-4g/kg, proteína 2-2.2g/kg (recuperación)
+- Pre-entreno: comida 2-3h antes + snack 30min antes
+- Post-entreno: primeros 30min (carbos+proteína rápida)
+- Suplementación según intensidad del día
+Cantidades exactas en g. Proteínas/pescado en crudo. Pasta/arroz/quinoa en cocido. Patata/boniato en crudo.`
+      })
+    });
+    const data = await res.json();
+    typing.remove();
+    const respTexto = (data.respuesta||'He analizado tu plan. ¿Quieres ajustar algo?').replace(/#{1,6}\s/g,'').replace(/\*\*(.*?)\*\*/g,'$1');
+    const elZia = document.createElement('div');
+    elZia.className = 'cmsg zia';
+    elZia.innerHTML = respTexto.replace(/\n/g,'<br>');
+    document.getElementById('chatMsgs').appendChild(elZia);
+    document.getElementById('chatMsgs').scrollTop = 99999;
+    chatHistorial.push({role:'assistant', content:respTexto});
+    guardarMenuHistorial('Plan deportista — ' + platActiva, respTexto);
+  } catch(e) {
+    typing.remove();
+    addChatMsg('zia', 'He recibido tu plan de entrenos. Descríbeme brevemente los días clave y te genero el menú completo.');
+  }
+  input.value = '';
+}
+
+async function analizarPlanPlataforma(plat) {
+  const texto = document.getElementById('texto-'+plat)?.value?.trim();
+  if (!texto) return;
+  document.getElementById('modalPlanDeportista').style.display = 'none';
+  abrirChat();
+  cerrarSubchips();
+  addChatMsg('user', `📅 [${plat}] ${texto}`);
+  chatHistorial.push({role:'user', content: texto});
+
+  const typing = document.createElement('div');
+  typing.className = 'typing';
+  typing.innerHTML = '<div class="tdot"></div><div class="tdot"></div><div class="tdot"></div>';
+  document.getElementById('chatMsgs').appendChild(typing);
+  document.getElementById('chatMsgs').scrollTop = 99999;
+
+  const dia = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'][new Date().getDay()];
+  try {
+    const res = await fetch(API+'/web/chat', {
+      method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer anonimo'},
+      body: JSON.stringify({
+        mensaje: `Mi plan de ${plat} esta semana:\n${texto}\n\nHoy es ${dia}. Objetivo: ${perfil.objetivo||'rendimiento'}, peso: ${perfil.peso||70}kg.
+Genera menú nutricional completo adaptado día a día:
+- Días carga alta: carbos 5-7g/kg, proteína 1.8-2g/kg
+- Días descanso: carbos 3-4g/kg, más proteína
+- Pre y post entreno con cantidades exactas
+- Suplementación por día según intensidad
+Proteínas en crudo. Pasta/arroz/quinoa en cocido. Patata/boniato en crudo.`,
+        historial: chatHistorial.slice(-4), perfil: perfil
+      })
+    });
+    const data = await res.json();
+    typing.remove();
+    const respTexto = (data.respuesta||'').replace(/#{1,6}\s/g,'').replace(/\*\*(.*?)\*\*/g,'$1').trim() || 'He preparado tu menú deportivo. ¿Ajusto algo?';
+    const elZia = document.createElement('div');
+    elZia.className = 'cmsg zia';
+    elZia.innerHTML = respTexto.replace(/\n/g,'<br>');
+    document.getElementById('chatMsgs').appendChild(elZia);
+    document.getElementById('chatMsgs').scrollTop = 99999;
+    chatHistorial.push({role:'assistant', content:respTexto});
+    guardarMenuHistorial('Plan deportista — ' + plat, respTexto);
+  } catch(e) {
+    typing.remove();
+    addChatMsg('zia', 'No pude generar el menú. ¿Puedes intentarlo de nuevo?');
+  }
+}
+
+// ── HISTORIAL DE MENÚS ──
+let menuHistorial = JSON.parse(localStorage.getItem('zia_menus') || '[]');
+
+function guardarMenuHistorial(titulo, contenido) {
+  const fecha = new Date();
+  const fechaStr = fecha.toLocaleDateString('es-ES', {weekday:'short', day:'numeric', month:'short', year:'numeric'});
+  menuHistorial.unshift({ titulo, contenido, fecha: fechaStr, ts: fecha.getTime() });
+  menuHistorial = menuHistorial.slice(0, 20); // Max 20 menús
+  localStorage.setItem('zia_menus', JSON.stringify(menuHistorial));
+  renderHistorial();
+}
+
+function renderHistorial() {
+  const lista = document.getElementById('historialMenusList');
+  const vacio = document.getElementById('historialVacio');
+  if (!menuHistorial.length) { vacio.style.display='block'; return; }
+  vacio.style.display = 'none';
+  lista.innerHTML = menuHistorial.map((m, i) => `
+    <div style="padding:12px 16px;border-bottom:1px solid var(--borde);display:flex;align-items:center;gap:10px;" onclick="verMenuHistorial(${i})">
+      <span style="font-size:16px">📋</span>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:500">${m.titulo}</div>
+        <div style="font-size:11px;color:var(--texto-suave)">${m.fecha}</div>
+      </div>
+      <button onclick="event.stopPropagation();descargarMenuPDF(${i})" style="background:var(--verde);color:white;border:none;border-radius:8px;padding:5px 10px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;">PDF</button>
+    </div>
+  `).join('') + `<div style="border-bottom:none"></div>`;
+}
+
+function verMenuHistorial(i) {
+  const m = menuHistorial[i];
+  abrirChat();
+  addChatMsg('zia', `📋 <b>${m.titulo}</b> — ${m.fecha}\n\n${m.contenido}`);
+}
+
+function descargarMenuPDF(i) {
+  const m = menuHistorial[i];
+  const contenido = `ZIA Nutrición — ${m.titulo}\n${m.fecha}\n\n${m.contenido.replace(/<br>/g,'\n').replace(/<[^>]+>/g,'')}`;
+  const blob = new Blob([contenido], {type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `ZIA_menu_${m.fecha.replace(/[\s,]/g,'_')}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+const instrPlan = {
+  captura: 'Sube una foto o captura de pantalla de tu plan semanal de TrainingPeaks, Garmin, Strava o cualquier app. Puedes subir varias fotos.',
+  texto: 'Escribe o pega tu plan: día por día, tipo de entreno, duración e intensidad aproximada.',
+  trainingpeaks: 'En TrainingPeaks: ve a la vista semanal → captura pantalla o copia el texto de cada sesión y pégalo abajo.',
+  garmin: 'En Garmin Connect o Strava: ve a tu calendario semanal → captura pantalla y súbela aquí.'
+};
+
+let fuentePlanDeportista = '';
+function seleccionarFuentePlan(fuente) {
+  fuentePlanDeportista = fuente;
+  document.querySelectorAll('[id^="fp-"]').forEach(b => { b.style.borderColor='var(--borde)'; b.style.background='white'; });
+  document.getElementById('fp-'+fuente).style.borderColor = 'var(--verde)';
+  document.getElementById('fp-'+fuente).style.background = '#f0f7eb';
+  const instr = document.getElementById('instrPlanDeportista');
+  instr.textContent = instrPlan[fuente] || '';
+  instr.style.display = 'block';
+  if (fuente === 'captura' || fuente === 'garmin' || fuente === 'trainingpeaks') {
+    document.getElementById('btnSubirFotoPlan').style.display = 'block';
+    document.getElementById('inputPlanDeportista').style.display = 'none';
+    document.getElementById('btnGenerarMenuDep').style.display = 'none';
+  } else {
+    document.getElementById('btnSubirFotoPlan').style.display = 'none';
+    document.getElementById('inputPlanDeportista').style.display = 'block';
+    document.getElementById('btnGenerarMenuDep').style.display = 'block';
+  }
+}
+
+async function procesarFotoPlanDeportista(input) {
+  if (!input.files || !input.files.length) return;
+  document.getElementById('modalPlanDeportista').style.display = 'none';
+  abrirChat();
+  addChatMsg('user', `📅 [${input.files.length > 1 ? input.files.length+' fotos' : 'Foto'} de mi plan de entrenos semanal]`);
+
+  const typing = document.createElement('div');
+  typing.className = 'typing';
+  typing.innerHTML = '<div class="tdot"></div><div class="tdot"></div><div class="tdot"></div>';
+  document.getElementById('chatMsgs').appendChild(typing);
+  document.getElementById('chatMsgs').scrollTop = 99999;
+
+  try {
+    const b64 = await new Promise(r => {
+      const reader = new FileReader();
+      reader.onload = e => r(e.target.result.split(',')[1]);
+      reader.readAsDataURL(input.files[0]);
+    });
+    const dia = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'][new Date().getDay()];
+    const res = await fetch(API+'/web/foto-nevera', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer anonimo'},
+      body: JSON.stringify({
+        imagen_base64: b64,
+        perfil: perfil,
+        tipo: 'plan_deportista',
+        prompt_extra: `Esta es una foto del plan de entrenos semanal de un deportista. Hoy es ${dia}.
+Analiza el plan de entrenos día por día y genera un menú nutricional completo adaptado para cada día:
+- Días de carga alta (TSS>80, entreno duro): más carbohidratos (5-7g/kg), proteína moderada
+- Días de carga media: carbohidratos moderados (4-5g/kg)
+- Días de descanso/recuperación: menos carbos (3-4g/kg), más proteína
+- Pre-entreno: qué comer 2-3h antes y 30min antes
+- Post-entreno: qué comer en los primeros 30min
+- Suplementación recomendada según objetivo: ${perfil.objetivo||'rendimiento deportivo'}
+Incluye cantidades en gramos. Recuerda: proteínas (pollo/carne/pescado) en crudo; pasta/arroz/quinoa en cocido; patata/boniato en crudo.`
+      })
+    });
+    const data = await res.json();
+    typing.remove();
+    const respTexto = (data.respuesta||'He analizado tu plan de entrenos. ¿Quieres que ajuste algo del menú?').replace(/#{1,6}\s/g,'').replace(/\*\*(.*?)\*\*/g,'$1');
+    const elZia = document.createElement('div');
+    elZia.className = 'cmsg zia';
+    elZia.innerHTML = respTexto.replace(/\n/g,'<br>');
+    document.getElementById('chatMsgs').appendChild(elZia);
+    document.getElementById('chatMsgs').scrollTop = 99999;
+    chatHistorial.push({role:'assistant', content:respTexto});
+  } catch(e) {
+    typing.remove();
+    addChatMsg('zia', 'He recibido tu plan de entrenos 📅 Estoy preparando tu menú semanal adaptado. ¿Puedes describirme brevemente los entrenos principales de la semana?');
+  }
+  input.value = '';
+}
+
+async function generarMenuDeportista() {
+  const texto = document.getElementById('inputPlanDeportista').value.trim();
+  if (!texto) return;
+  document.getElementById('modalPlanDeportista').style.display = 'none';
+  abrirChat();
+  addChatMsg('user', '📅 Plan semanal:\n' + texto);
+  chatHistorial.push({role:'user', content: 'Mi plan de entrenos esta semana:\n' + texto});
+
+  const typing = document.createElement('div');
+  typing.className = 'typing';
+  typing.innerHTML = '<div class="tdot"></div><div class="tdot"></div><div class="tdot"></div>';
+  document.getElementById('chatMsgs').appendChild(typing);
+  document.getElementById('chatMsgs').scrollTop = 99999;
+
+  const dia = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'][new Date().getDay()];
+  try {
+    const res = await fetch(API+'/web/chat', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer anonimo'},
+      body: JSON.stringify({
+        mensaje: `Mi plan de entrenos esta semana es:\n${texto}\n\nHoy es ${dia}. Mi objetivo es ${perfil.objetivo||'rendimiento deportivo'} y peso ${perfil.peso||70}kg.
+Genera un menú nutricional completo para cada día adaptado al entreno de ese día:
+- Días de carga alta: más carbohidratos (5-7g/kg peso), proteína adecuada
+- Días de descanso: menos carbos (3-4g/kg), más proteína para recuperación
+- Incluye pre-entreno (2-3h antes y 30min antes) y post-entreno (primeros 30min)
+- Suplementación específica por día según intensidad
+- Cantidades exactas en gramos (proteínas en crudo, pasta/arroz/quinoa en cocido, patata/boniato en crudo)`,
+        historial: chatHistorial.slice(-4),
+        perfil: perfil
+      })
+    });
+    const data = await res.json();
+    typing.remove();
+    const respTexto = (data.respuesta||'').replace(/#{1,6}\s/g,'').replace(/\*\*(.*?)\*\*/g,'$1').trim() || 'He preparado tu menú deportivo semanal. ¿Quieres ajustar algo?';
+    const elZia = document.createElement('div');
+    elZia.className = 'cmsg zia';
+    elZia.innerHTML = respTexto.replace(/\n/g,'<br>');
+    document.getElementById('chatMsgs').appendChild(elZia);
+    document.getElementById('chatMsgs').scrollTop = 99999;
+    chatHistorial.push({role:'assistant', content:respTexto});
+  } catch(e) {
+    typing.remove();
+    addChatMsg('zia', 'No pude generar el menú. ¿Puedes intentarlo de nuevo?');
+  }
+}
+// ── FIN PLAN DEPORTISTA ──
+
+// Arrancar en landing
+mostrar('vista-landing');
+</script>
+</body>
+</html>
